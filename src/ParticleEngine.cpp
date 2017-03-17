@@ -60,16 +60,17 @@ void ParticleEngine::privateInit()
 
 void ParticleEngine::privateRender()
 {
-	glShadeModel(GL_SMOOTH);              // Enable Smooth Shading
-  glClearColor(0.0f,0.0f,0.0f,0.0f);          // Black Background
-  glClearDepth(1.0f);                 // Depth Buffer Setup
-  glDisable(GL_DEPTH_TEST);             // Disable Depth Testing
-  glEnable(GL_BLEND);                 // Enable Blending
-  glBlendFunc(GL_SRC_ALPHA,GL_ONE);         // Type Of Blending To Perform
-  glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST); // Really Nice Perspective Calculations
-  glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);       // Really Nice Point Smoothing
+	 glShadeModel(GL_SMOOTH);              // Enable Smooth Shading
+   glClearColor(0.0f,0.0f,0.0f,0.0f);          // Black Background
+   glClearDepth(1.0f);                 // Depth Buffer Setup
+   glDisable(GL_DEPTH_TEST);             // Disable Depth Testing
+   glEnable(GL_BLEND);                 // Enable Blending
+   glBlendFunc(GL_SRC_ALPHA,GL_ONE);         // Type Of Blending To Perform
+   glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST); // Really Nice Perspective Calculations
+   glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);       // Really Nice Point Smoothing
 	glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture_);
+
 
 	for (int loop=0;loop<MAX_PARTICLES;loop++)          // Loop Through All The Particles
   {
@@ -114,6 +115,7 @@ void ParticleEngine::privateRender()
       }
     }
   }
+   glDisable(GL_BLEND);
    glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
    glDisable(GL_TEXTURE_2D);
 }

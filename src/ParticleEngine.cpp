@@ -20,7 +20,7 @@ void ParticleEngine::privateInit()
   glGenTextures(1, &texture_);
   glBindTexture(GL_TEXTURE_2D, texture_);
 
-  unsigned char* image = SOIL_load_image("img/Data/Particle.bmp", &texWidth, &texHeight, 0, SOIL_LOAD_RGB);
+  unsigned char* image = SOIL_load_image("img/Data/Particle3.bmp", &texWidth, &texHeight, 0, SOIL_LOAD_RGB);
 
   if(!image){
     std::cout << "Failed to load texture: " << sizeof(image) << std::endl;

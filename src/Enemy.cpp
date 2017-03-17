@@ -74,31 +74,31 @@ void Enemy::privateInit(){
 void Enemy::privateRender()
 {
 
-  // //glCallList(list_id);
+  //glCallList(list_id);
   
-  // // Enable texturing before render
-  // glEnable(GL_TEXTURE_2D);
-  // glBindTexture(GL_TEXTURE_2D, texture_);
+  // Enable texturing before render
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture_);
 
-  // //Draw quads with texture coordinates
-  // glBegin(GL_QUADS);
-  // // Draw the bottom left vertex
-  // glTexCoord2f(0,0);
-  // glVertex3f (0,0,-2);
-  // // Draw the bottom right vertex
-  // glTexCoord2f (1,0);
-  // glVertex3f (10,0,-2);
-  // // Draw the top right vertex
-  // glTexCoord2f(1,1);
-  // glVertex3f (10,10,-2);
-  // // Draw the top left vertex
-  // glTexCoord2f (0,1);
-  // glVertex3f (0,10,-2);
-  // glEnd();
+  //Draw quads with texture coordinates
+  glBegin(GL_QUADS);
+  // Draw the bottom left vertex
+  glTexCoord2f(0,0);
+  glVertex3f (0,0,-2);
+  // Draw the bottom right vertex
+  glTexCoord2f (1,0);
+  glVertex3f (10,0,-2);
+  // Draw the top right vertex
+  glTexCoord2f(1,1);
+  glVertex3f (10,10,-2);
+  // Draw the top left vertex
+  glTexCoord2f (0,1);
+  glVertex3f (0,10,-2);
+  glEnd();
 
   
-  // glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
-  // glDisable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
+  glDisable(GL_TEXTURE_2D);
 
 
 

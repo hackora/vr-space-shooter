@@ -29,6 +29,6 @@ class BattleField : public SceneObject
     int sizeX = 512;
     int sizeZ = 512;
     int Y     = 0;
-    GLuint texture_;
+    GLuint BfTexture_;
 };
 

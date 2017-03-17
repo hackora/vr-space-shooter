@@ -1,6 +1,8 @@
 #include "ParticleEngine.hpp"
 #include "SOIL.h"
 #include <iostream>
+#include <GL/glut.h> 
+
 
 ParticleEngine::ParticleEngine()
 {
@@ -27,6 +29,11 @@ void ParticleEngine::privateInit()
   else{
     std::cout << "Texture loaded: " << "size " << sizeof(image) << " height " << texHeight << " width "<< texWidth << std::endl;
   }
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texWidth, texHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+
+  //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texWidth, texHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 
   SOIL_free_image_data(image);
   glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
@@ -46,6 +53,8 @@ void ParticleEngine::privateInit()
     particles[loop].yg=-0.8f;                // Set Vertical Pull Downward
     particles[loop].zg=0.0f;                 // Set Pull On Z Axis To Zero
   }
+  glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
+  glDisable(GL_TEXTURE_2D);
 
 }
 
@@ -60,7 +69,7 @@ void ParticleEngine::privateRender()
   glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST); // Really Nice Perspective Calculations
   glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);       // Really Nice Point Smoothing
 	glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texture_);
+  glBindTexture(GL_TEXTURE_2D, texture_);
 
 	for (int loop=0;loop<MAX_PARTICLES;loop++)          // Loop Through All The Particles
   {
@@ -105,8 +114,8 @@ void ParticleEngine::privateRender()
       }
     }
   }
-  // glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
-  // glDisable(GL_TEXTURE_2D);
+   glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
+   glDisable(GL_TEXTURE_2D);
 }
 
 void ParticleEngine::privateUpdate()

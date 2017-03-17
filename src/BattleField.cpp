@@ -45,8 +45,8 @@ void BattleField::privateInit()
 	//Texture using SOIL library
   int texWidth, texHeight;
 
-  glGenTextures(1, &texture_);
-  glBindTexture(GL_TEXTURE_2D, texture_);
+  glGenTextures(1, &BfTexture_);
+  glBindTexture(GL_TEXTURE_2D, BfTexture_);
 
   unsigned char* image = SOIL_load_image("img/container.jpg", &texWidth, &texHeight, 0, SOIL_LOAD_RGB);
 
@@ -65,7 +65,7 @@ void BattleField::privateInit()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   // Set environment mode
-  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+  //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
   // Load and generate the texture
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texWidth, texHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
   //glGenerateMipmap(GL_TEXTURE_2D);
@@ -81,7 +81,7 @@ void BattleField::privateRender()
 {
   // Enable texturing before render
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, texture_);
+  glBindTexture(GL_TEXTURE_2D, BfTexture_);
   glEnable(GL_PRIMITIVE_RESTART);
   // Render the battlefield
   glEnableClientState(GL_VERTEX_ARRAY); // enable vertex arrays

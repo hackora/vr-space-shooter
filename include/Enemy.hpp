@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "SceneObject.hpp"
+#include "Particle.hpp"
 
 class Enemy : public SceneObject
 {
@@ -22,5 +23,6 @@ class Enemy : public SceneObject
     float armor_;
     int   list_id;
     float counter=0.016;
+    GLuint texture_;
 };
 

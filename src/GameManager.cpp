@@ -27,11 +27,30 @@ void GameManager::privateInit()
    enemy_.reset(new Enemy());
    this->addSubObject(enemy_);
 
+   pe_.reset(new ParticleEngine());
+   this->addSubObject(pe_);
+
+  // glEnable(GL_FOG);
+
+  // GLfloat fogColor[4] = {0.5, 0.5, 0.5, 1.0};
+  // GLfloat density = 0.3;
+  // glFogfv(GL_FOG_COLOR, fogColor);
+  // //specify the equation to be used
+  // glFogi(GL_FOG_MODE, GL_LINEAR);
+  // //specify parameters
+  // glFogf(GL_FOG_START, 2.0f);
+  // glFogf(GL_FOG_END, 1.0f);
+  // glFogf (GL_FOG_DENSITY, density);
+  // //per-pixel fog calculations
+  // glHint(GL_FOG_HINT, GL_NICEST);
+
 }
 
 void GameManager::privateRender()
 {
   // Nothing to render
+  //glDisable(GL_FOG);
+
 }
 
 void GameManager::privateUpdate()

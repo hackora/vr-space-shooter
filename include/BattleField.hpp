@@ -22,11 +22,13 @@ class BattleField : public SceneObject
 
 	private:
     std::vector< glm::vec3 > vertexArray_; // Maybe two-dim vector and several arrays
-    std::vector< unsigned int > indexArray_; 
+    std::vector< unsigned int > indexArray_;
+    std::vector< glm::vec2 > textureArray_; 
     // normal array.
     // texture coord array
-    int sizeX = 32;
+    int sizeX = 512;
     int sizeZ = 512;
     int Y     = 0;
+    GLuint texture_;
 };
 

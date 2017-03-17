@@ -14,8 +14,8 @@ class SpaceShip : public SceneObject
 
   protected:
     void privateInit();
-		void privateRender();
-		void privateUpdate();
+	void privateRender();
+	void privateUpdate();
 
 	private:
 	  float speed_;

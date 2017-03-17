@@ -33,12 +33,16 @@ void init()
   _initialized = true;
   // Init GLEW
   glewExperimental = true;
-  GLenum err = glewInit();
-  if( err == GLEW_OK )
+  GLenum glewErr = glewInit();
+  if( glewErr == GLEW_OK )
     std::cout << "GLEW Init OK - using GLEW version " << glewGetString(GLEW_VERSION) << std::endl;
   else
     std::cout << "GLEW Init FAILED!!" << std::endl;
   std::cout << std::flush;
+
+  //OpenGl Version
+  char *buff = (char*)glGetString(GL_VERSION);
+  std::cout << buff << std::endl;
 
   glClearColor(0.0, 0.0, 0.0, 0.0);
   glShadeModel(GL_SMOOTH);
@@ -55,6 +59,11 @@ void init()
 
 void display()
 {
+  GLenum err = glGetError();
+  if (err != GL_NO_ERROR)
+    std::cout<< "OpenGL error: " << gluErrorString(err) << std::endl;
+  std::cout << std::flush;
+
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   gm->update(counter.fps());

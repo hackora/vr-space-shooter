@@ -9,6 +9,7 @@
 #include "SpaceShip.hpp"
 #include "Camera.hpp"
 #include "Enemy.hpp"
+#include "ParticleEngine.hpp"
 
 #include <memory>
 
@@ -22,12 +23,13 @@ class GameManager : public SceneObject
 
   protected:
     virtual void privateInit();
-		virtual void privateRender();
-		virtual void privateUpdate();
+	virtual void privateRender();
+	virtual void privateUpdate();
 
 	private:
     std::shared_ptr<BattleField> bf_;
     std::shared_ptr<Enemy> enemy_;
     std::shared_ptr<Camera> cam_;
+    std::shared_ptr<ParticleEngine> pe_;
 };
 

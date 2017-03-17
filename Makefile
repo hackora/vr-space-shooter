@@ -1,7 +1,7 @@
 CC = g++
 SRC = ./app/main.cpp
 SRC += ./src/*.cpp
-LIBS = -lGL -lglut -lGLU -lpthread -lGLEW
+LIBS = -lGL -lglut -lGLU -lpthread -lGLEW -lSOIL
 EXEC = app.out
 INC1 = ./include
 INC2 = ./glm

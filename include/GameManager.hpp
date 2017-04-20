@@ -20,6 +20,7 @@ class GameManager : public SceneObject
 		~GameManager();
 
     std::shared_ptr<Camera> getCam();
+    std::shared_ptr<SpaceShip> getSpaceship();
 
   protected:
     virtual void privateInit();
@@ -30,6 +31,7 @@ class GameManager : public SceneObject
     std::shared_ptr<BattleField> bf_;
     std::shared_ptr<Enemy> enemy_;
     std::shared_ptr<Camera> cam_;
+    std::shared_ptr<SpaceShip> spaceship_;
     std::shared_ptr<ParticleEngine> pe_;
 };
 

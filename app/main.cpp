@@ -59,22 +59,24 @@ void init()
 
 void display()
 {
-  GLenum err = glGetError();
-  if (err != GL_NO_ERROR)
-    std::cout<< "OpenGL error: " << gluErrorString(err) << std::endl;
-  std::cout << std::flush;
-
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   gm->update(counter.fps());
   gm->render();
 
-  if(keyPressed[KEY_ID_W]==true)      gm->getCam()->moveForward();
+/*  if(keyPressed[KEY_ID_W]==true)      gm->getCam()->moveForward();
   if(keyPressed[KEY_ID_A]==true)      gm->getCam()->moveLeft();
   if(keyPressed[KEY_ID_D]==true)      gm->getCam()->moveRight();
   if(keyPressed[KEY_ID_S]==true)      gm->getCam()->moveBackward();
   if(keyPressed[KEY_ID_SPACE]==true)  gm->getCam()->moveUp();
-  if(keyPressed[KEY_ID_C]==true)      gm->getCam()->moveDown();
+  if(keyPressed[KEY_ID_C]==true)      gm->getCam()->moveDown();*/
+
+  if(keyPressed[KEY_ID_Z]==true)      gm->getCam()->moveForward();
+  if(keyPressed[KEY_ID_Q]==true)      gm->getSpaceship()->moveLeft();
+  if(keyPressed[KEY_ID_D]==true)      gm->getSpaceship()->moveRight();
+  if(keyPressed[KEY_ID_S]==true)      gm->getCam()->moveBackward();
+  //if(keyPressed[KEY_ID_SPACE]==true)  gm->getSpaceship()->moveUp();
+  //if(keyPressed[KEY_ID_C]==true)      gm->getSpaceship()->moveDown();
 
   glutSwapBuffers();
   glutPostRedisplay();
@@ -94,11 +96,30 @@ void keyDown(unsigned char key, int x, int y)
 #endif
       break;
 
-    case 'w':
+    /*case 'w':
       keyPressed[KEY_ID_W] = true;
       break;
     case 'a':
       keyPressed[KEY_ID_A] = true;
+      break;
+    case 's':
+      keyPressed[KEY_ID_S] = true;
+      break;
+    case 'd':
+      keyPressed[KEY_ID_D] = true;
+      break;
+    case ' ':
+      keyPressed[KEY_ID_SPACE] = true;
+      break;
+    case 'c':
+      keyPressed[KEY_ID_C] = true;
+      break;*/
+
+      case 'z':
+      keyPressed[KEY_ID_Z] = true;
+      break;
+    case 'q':
+      keyPressed[KEY_ID_Q] = true;
       break;
     case 's':
       keyPressed[KEY_ID_S] = true;
@@ -122,11 +143,30 @@ void keyUp(unsigned char key, int x, int y)
 {
   switch (key)
   {
-    case 'w':
+    /*case 'w':
       keyPressed[KEY_ID_W] = false;
       break;
     case 'a':
       keyPressed[KEY_ID_A] = false;
+      break;
+    case 's':
+      keyPressed[KEY_ID_S] = false;
+      break;
+    case 'd':
+      keyPressed[KEY_ID_D] = false;
+      break;
+    case ' ':
+      keyPressed[KEY_ID_SPACE] = false;
+      break;
+    case 'c':
+      keyPressed[KEY_ID_C] = false;
+      break;*/
+
+      case 'z':
+      keyPressed[KEY_ID_Z] = false;
+      break;
+    case 'q':
+      keyPressed[KEY_ID_Q] = false;
       break;
     case 's':
       keyPressed[KEY_ID_S] = false;

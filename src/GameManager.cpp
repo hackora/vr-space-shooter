@@ -21,14 +21,14 @@ void GameManager::privateInit()
   bf_.reset(new BattleField());
   this->addSubObject(bf_);
 
-  //spaceship_.reset(new SpaceShip());
-  //this->addSubObject(spaceship_);
+  spaceship_.reset(new SpaceShip());
+  this->addSubObject(spaceship_);
 
-   enemy_.reset(new Enemy());
-   this->addSubObject(enemy_);
+  enemy_.reset(new Enemy());
+  this->addSubObject(enemy_);
 
-   pe_.reset(new ParticleEngine());
-   this->addSubObject(pe_);
+  //pe_.reset(new ParticleEngine());
+  //this->addSubObject(pe_);
 
   // glEnable(GL_FOG);
 
@@ -63,4 +63,9 @@ void GameManager::privateUpdate()
 std::shared_ptr<Camera> GameManager::getCam()
 {
   return cam_;
+}
+
+std::shared_ptr<SpaceShip> GameManager::getSpaceship()
+{
+  return spaceship_;
 }

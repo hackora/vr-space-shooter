@@ -9,24 +9,21 @@
 
 class Camera : public SceneObject
 {
-	public:
-		Camera();
-		~Camera();
-
-    void moveRight();
-    void moveLeft();
-    void moveUp();
-    void moveDown();
-    void moveBackward();
-    void moveForward();
+    public:
+        Camera();
+        ~Camera();
+        void moveRight();
+        void moveLeft();
+        void moveUp();
+        void moveDown();
+        void moveBackward();
+        void moveForward();
     
-  protected:
-    void privateInit();
-		void privateRender();
-		void privateUpdate();
+    protected:
+        void privateInit();
+        void privateRender();
+        void privateUpdate();
 
-	private:
+    private:
   
 };
-
-

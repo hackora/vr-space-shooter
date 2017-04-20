@@ -11,16 +11,22 @@ class SpaceShip : public SceneObject
 	public:
 		SpaceShip();
 		~SpaceShip();
+		void moveRight();
+    	void moveLeft();
+    	void moveUp();
+    	void moveDown();
+    	void moveBackward();
+    	void moveForward();
 
-  protected:
-    void privateInit();
-	void privateRender();
-	void privateUpdate();
+  	protected:
+    	void privateInit();
+		void privateRender();
+		void privateUpdate();
 
 	private:
-	  float speed_;
-    float life_;
-    float armor_;
+		float speed_;
+    	float life_;
+    	float armor_;
     
 };
 

@@ -1,5 +1,5 @@
-#include <pthread.h>
-//#include <windows.h>
+//#include <pthread.h>
+#include <windows.h>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <stdlib.h>
@@ -24,8 +24,8 @@ int mousePosX, mousePosY;
 float moveX, moveY;
 static bool _initialized;
 
-void* simpleFunc(void*) { return NULL; } 
-void forcePThreadLink() { pthread_t t1; pthread_create(&t1, NULL, &simpleFunc, NULL); }
+/*void* simpleFunc(void*) { return NULL; } 
+void forcePThreadLink() { pthread_t t1; pthread_create(&t1, NULL, &simpleFunc, NULL); }*/
 
 void init()
 {

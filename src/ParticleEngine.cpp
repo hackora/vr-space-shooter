@@ -1,5 +1,5 @@
-#include "ParticleEngine.hpp"
-#include "SOIL.h"
+#include "../include/ParticleEngine.hpp"
+//#include "SOIL.h"
 #include <iostream>
 #include <GL/glut.h> 
 
@@ -14,7 +14,7 @@ ParticleEngine::~ParticleEngine()
 
 void ParticleEngine::privateInit()
 {
-	//Texture using SOIL library
+	/*//Texture using SOIL library
   int texWidth, texHeight;
 
   glGenTextures(1, &texture_);
@@ -54,13 +54,13 @@ void ParticleEngine::privateInit()
     particles[loop].zg=0.0f;                 // Set Pull On Z Axis To Zero
   }
   glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
-  glDisable(GL_TEXTURE_2D);
+  glDisable(GL_TEXTURE_2D);*/
 
 }
 
 void ParticleEngine::privateRender()
 {
-	 glShadeModel(GL_SMOOTH);              // Enable Smooth Shading
+	/* glShadeModel(GL_SMOOTH);              // Enable Smooth Shading
    glClearColor(0.0f,0.0f,0.0f,0.0f);          // Black Background
    glClearDepth(1.0f);                 // Depth Buffer Setup
    glDisable(GL_DEPTH_TEST);             // Disable Depth Testing
@@ -117,7 +117,7 @@ void ParticleEngine::privateRender()
   }
    glDisable(GL_BLEND);
    glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
-   glDisable(GL_TEXTURE_2D);
+   glDisable(GL_TEXTURE_2D);*/
 }
 
 void ParticleEngine::privateUpdate()

@@ -1,6 +1,6 @@
-#include "SpaceShip.hpp"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include "../include/SpaceShip.hpp"
+#include "../glm/glm.hpp"
+#include "../glm/gtc/matrix_transform.hpp"
 
 #include <iostream>
 

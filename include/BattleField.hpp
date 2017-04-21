@@ -1,13 +1,13 @@
 #pragma once
 
-//#include <windows.h>
-//#include <GL/glew.h>
+#include <windows.h>
+#include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 
 #include "SceneObject.hpp"
-#include "glm/glm.hpp"
+#include "../glm/glm.hpp"
 
 class BattleField : public SceneObject
 {

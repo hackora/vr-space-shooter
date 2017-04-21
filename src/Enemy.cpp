@@ -1,11 +1,12 @@
 #include "Enemy.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include <GL/glut.h> 
-#include "SOIL.h"
+//#include "SOIL.h"
 #include <iostream>
 
 Enemy::Enemy()
 {
+  privateInit();
 }
 
 Enemy::~Enemy()
@@ -17,14 +18,16 @@ void Enemy::privateInit(){
    list_id = glGenLists(1);
    //list_id is an integer
    glNewList(list_id, GL_COMPILE);
-   glBegin(GL_TRIANGLES);
+   glBegin(GL_QUADS);
    glEnable(GL_COLOR_MATERIAL);
    glColorMaterial(GL_FRONT, GL_DIFFUSE); // glColor now changes the diffuse component
    glColor3f(0.2f, 0.5f, 0.8f);
-   glNormal3f(5.0f, 5.0f, 10.0f);
+   glNormal3f(0.0f, 0.0f, 1.0f);
    glVertex3f(-2.5f, 0.0f-16, -1024.0f);
    glVertex3f(2.5f, 0.0f-16, -1024.0f);
    glVertex3f(2.5f, 5.0f-16, -1024.0f);
+   glVertex3f(-2.5f, 5.0f-16, -1024.0f);
+
    //glLightfv(GL_LIGHT0, GL_SPECULAR, light_spec);
    glColorMaterial(GL_FRONT, GL_SPECULAR); // glColor now changes the specular component
    glColor3f(0.9f, 0.0f, 0.2f);
@@ -35,6 +38,7 @@ void Enemy::privateInit(){
    glEnd();
    glEndList();
 
+/*
   //Texture using SOIL library
   int texWidth, texHeight;
 
@@ -66,7 +70,7 @@ void Enemy::privateInit(){
   //good practice: free memory and unbind texture
 
   SOIL_free_image_data(image);
-  glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
+  glBindTexture(GL_TEXTURE_2D, 0); //unbind texture*/
   
 
 }
@@ -104,9 +108,55 @@ void Enemy::privateRender()
 
 }
 
-void Enemy::privateUpdate(){
-   matrix_ = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f,1024* std::abs(std::sin(counter))));
-   counter+=0.00016;
+void Enemy::privateUpdate()
+{
+  switch (movement){
+    case 0:
+      moveSinus();
+      break;
+    case 1:
+      moveStraight();
+      break;
+    case 2:
+      moveZigzag();
+      break;
+    default:
+      moveStraight();
+      break;
+  }
+
+  if(hasWeapon){
+    lasers_.front()->fire();
+  }
+
+  counter+=0.016;
+     
+}
+
+void Enemy::setMovement(int mvt)
+{
+  movement = mvt;
+}
+
+void Enemy::addLaser()
+{
+  auto laser = std::make_shared<Laser>();
+  laser->owner =1;
+  this->addSubObject(laser);
+  lasers_.push_back(laser);
+}
+
+void Enemy::moveSinus()
+{
+  matrix_ = glm::translate(glm::mat4(), glm::vec3(16*std::sin(counter), 0.0f,10*counter));
+}
+void Enemy::moveStraight()
+{
+  matrix_ = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f,10*counter));
+}
+void Enemy::moveZigzag()
+{
+  matrix_ = glm::translate(glm::mat4(), glm::vec3(16*std::sin(counter), 0.0f,10*counter));
 }
 
 void Enemy::moveRight()

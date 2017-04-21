@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <memory>
+#include <random>
 
 std::shared_ptr<GameManager> gm;
 siut::FpsCounter counter;
@@ -64,19 +65,31 @@ void display()
   gm->update(counter.fps());
   gm->render();
 
-/*  if(keyPressed[KEY_ID_W]==true)      gm->getCam()->moveForward();
-  if(keyPressed[KEY_ID_A]==true)      gm->getCam()->moveLeft();
-  if(keyPressed[KEY_ID_D]==true)      gm->getCam()->moveRight();
-  if(keyPressed[KEY_ID_S]==true)      gm->getCam()->moveBackward();
-  if(keyPressed[KEY_ID_SPACE]==true)  gm->getCam()->moveUp();
-  if(keyPressed[KEY_ID_C]==true)      gm->getCam()->moveDown();*/
-
-  if(keyPressed[KEY_ID_Z]==true)      gm->getCam()->moveForward();
-  if(keyPressed[KEY_ID_Q]==true)      gm->getSpaceship()->moveLeft();
+  if(keyPressed[KEY_ID_W]==true)      gm->getSpaceship()->moveUp();
+  if(keyPressed[KEY_ID_A]==true)      gm->getSpaceship()->moveLeft();
   if(keyPressed[KEY_ID_D]==true)      gm->getSpaceship()->moveRight();
-  if(keyPressed[KEY_ID_S]==true)      gm->getCam()->moveBackward();
-  //if(keyPressed[KEY_ID_SPACE]==true)  gm->getSpaceship()->moveUp();
+  if(keyPressed[KEY_ID_S]==true)      gm->getSpaceship()->moveDown();
+  if(keyPressed[KEY_ID_F]==true){
+    auto missiles = gm->getSpaceship()->getMissile();
+    if(missiles.size()>=1){
+      missiles.front()->fire();
+      missiles.front()->removeSubObject(gm->getSpaceship());
+      missiles.erase(missiles.begin());
+    }
+    keyPressed[KEY_ID_F]=false;
+    std::cout<<missiles.size();
+  }
+  if(keyPressed[KEY_ID_SPACE]==true){
+    auto lasers = gm->getSpaceship()->getLaser();
+    if(!lasers.empty())
+      lasers.front()->fire();
+  }
   //if(keyPressed[KEY_ID_C]==true)      gm->getSpaceship()->moveDown();
+
+  if(gm->enemyFreq % 3000 ==0)
+    gm->getEnemyManager()->createEnemy();
+
+  gm->enemyFreq++;
 
   glutSwapBuffers();
   glutPostRedisplay();
@@ -87,7 +100,7 @@ void keyDown(unsigned char key, int x, int y)
 {
   switch (key)
   {
-    case 'm':
+    case 'q':
     case 27:
       glutDestroyWindow(window);
 #ifndef _WIN32
@@ -96,7 +109,7 @@ void keyDown(unsigned char key, int x, int y)
 #endif
       break;
 
-    /*case 'w':
+      case 'w':
       keyPressed[KEY_ID_W] = true;
       break;
     case 'a':
@@ -108,24 +121,8 @@ void keyDown(unsigned char key, int x, int y)
     case 'd':
       keyPressed[KEY_ID_D] = true;
       break;
-    case ' ':
-      keyPressed[KEY_ID_SPACE] = true;
-      break;
-    case 'c':
-      keyPressed[KEY_ID_C] = true;
-      break;*/
-
-      case 'z':
-      keyPressed[KEY_ID_Z] = true;
-      break;
-    case 'q':
-      keyPressed[KEY_ID_Q] = true;
-      break;
-    case 's':
-      keyPressed[KEY_ID_S] = true;
-      break;
-    case 'd':
-      keyPressed[KEY_ID_D] = true;
+    case 'f':
+      keyPressed[KEY_ID_F] = true;
       break;
     case ' ':
       keyPressed[KEY_ID_SPACE] = true;
@@ -143,7 +140,7 @@ void keyUp(unsigned char key, int x, int y)
 {
   switch (key)
   {
-    /*case 'w':
+      case 'w':
       keyPressed[KEY_ID_W] = false;
       break;
     case 'a':
@@ -155,24 +152,8 @@ void keyUp(unsigned char key, int x, int y)
     case 'd':
       keyPressed[KEY_ID_D] = false;
       break;
-    case ' ':
-      keyPressed[KEY_ID_SPACE] = false;
-      break;
-    case 'c':
-      keyPressed[KEY_ID_C] = false;
-      break;*/
-
-      case 'z':
-      keyPressed[KEY_ID_Z] = false;
-      break;
-    case 'q':
-      keyPressed[KEY_ID_Q] = false;
-      break;
-    case 's':
-      keyPressed[KEY_ID_S] = false;
-      break;
-    case 'd':
-      keyPressed[KEY_ID_D] = false;
+    case 'f':
+      keyPressed[KEY_ID_F] = false;
       break;
     case ' ':
       keyPressed[KEY_ID_SPACE] = false;
@@ -225,11 +206,12 @@ void reshape(int w, int h)
 
 int main(int argc, char** argv)
 {
+  srand (time(NULL));
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGB);
   glutInitWindowSize(700, 700);
   glutInitWindowPosition(10, 10);
-  window = glutCreateWindow("Space Shooter 3D");
+  window = glutCreateWindow("Space Shooter");
   init();
   glutKeyboardFunc(keyDown);
   glutKeyboardUpFunc(keyUp);

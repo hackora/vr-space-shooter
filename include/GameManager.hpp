@@ -8,7 +8,7 @@
 #include "BattleField.hpp"
 #include "SpaceShip.hpp"
 #include "Camera.hpp"
-#include "Enemy.hpp"
+#include "EnemyManager.hpp"
 #include "ParticleEngine.hpp"
 
 #include <memory>
@@ -21,6 +21,8 @@ class GameManager : public SceneObject
 
     std::shared_ptr<Camera> getCam();
     std::shared_ptr<SpaceShip> getSpaceship();
+    std::shared_ptr<EnemyManager>getEnemyManager();
+    int enemyFreq=1;
 
   protected:
     virtual void privateInit();
@@ -29,9 +31,9 @@ class GameManager : public SceneObject
 
 	private:
     std::shared_ptr<BattleField> bf_;
-    std::shared_ptr<Enemy> enemy_;
+    std::shared_ptr<EnemyManager> em_;
     std::shared_ptr<Camera> cam_;
     std::shared_ptr<SpaceShip> spaceship_;
     std::shared_ptr<ParticleEngine> pe_;
-};
 
+};

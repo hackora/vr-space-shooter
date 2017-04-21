@@ -5,6 +5,10 @@
 //#include <GL/glew.h>
 #include <GL/glu.h>
 #include "SceneObject.hpp"
+#include "Laser.hpp"
+#include "Missile.hpp"
+
+#include <vector>
 
 class SpaceShip : public SceneObject
 {
@@ -17,6 +21,8 @@ class SpaceShip : public SceneObject
     	void moveDown();
     	void moveBackward();
     	void moveForward();
+        std::vector<std::shared_ptr<Missile>> getMissile();
+        std::vector<std::shared_ptr<Laser>> getLaser();
 
   	protected:
     	void privateInit();
@@ -27,6 +33,7 @@ class SpaceShip : public SceneObject
 		float speed_;
     	float life_;
     	float armor_;
+        std::vector<std::shared_ptr<Laser>> lasers_;
+        std::vector<std::shared_ptr<Missile>> missiles_;
     
 };
-

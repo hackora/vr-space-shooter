@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <limits>
 #include "BattleField.hpp"
-#include "SOIL.h"
+//#include "SOIL.h"
 #include <iostream>
 
 BattleField::BattleField()
@@ -41,7 +41,7 @@ void BattleField::privateInit()
 	indexArray_.push_back(restartPrimiveValue);
   }
 
-
+/*
 	//Texture using SOIL library
   int texWidth, texHeight;
 
@@ -74,14 +74,15 @@ void BattleField::privateInit()
 
   SOIL_free_image_data(image);
   glBindTexture(GL_TEXTURE_2D, 0); //unbind texture	
+  */
 }
 
 
 void BattleField::privateRender()
 {
-  // Enable texturing before render
+ /* // Enable texturing before render
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, BfTexture_);
+  glBindTexture(GL_TEXTURE_2D, BfTexture_);*/
   glEnable(GL_PRIMITIVE_RESTART);
   // Render the battlefield
   glEnableClientState(GL_VERTEX_ARRAY); // enable vertex arrays
@@ -91,8 +92,8 @@ void BattleField::privateRender()
   glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
   glDisable(GL_PRIMITIVE_RESTART);
   
-  glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
-  glDisable(GL_TEXTURE_2D);
+  /*glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
+  glDisable(GL_TEXTURE_2D);*/
 }
 
 void BattleField::privateUpdate()

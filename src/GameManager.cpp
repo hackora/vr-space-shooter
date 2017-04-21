@@ -24,8 +24,12 @@ void GameManager::privateInit()
   spaceship_.reset(new SpaceShip());
   this->addSubObject(spaceship_);
 
-  enemy_.reset(new Enemy());
-  this->addSubObject(enemy_);
+  em_.reset(new EnemyManager());
+  this->addSubObject(em_);
+  /*pe_.reset(new ParticleEngine());
+  this->addSubObject(pe_);*/
+
+  em_->createEnemy();
 
   //pe_.reset(new ParticleEngine());
   //this->addSubObject(pe_);
@@ -68,4 +72,9 @@ std::shared_ptr<Camera> GameManager::getCam()
 std::shared_ptr<SpaceShip> GameManager::getSpaceship()
 {
   return spaceship_;
+}
+
+std::shared_ptr<EnemyManager> GameManager::getEnemyManager()
+{
+  return em_;
 }

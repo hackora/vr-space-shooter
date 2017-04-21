@@ -31,4 +31,3 @@ class BattleField : public SceneObject
         int Y     = -16;
         GLuint BfTexture_;
 };
-

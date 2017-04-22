@@ -1,5 +1,6 @@
 #include "../include/Enemy.hpp"
 #include "../glm/gtc/matrix_transform.hpp"
+
 #include <GL/glut.h> 
 //#include "SOIL.h"
 #include <iostream>

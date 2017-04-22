@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <vector>
-#include "Input.hpp"
-#include "FpsCounter.hpp"
-#include "GameManager.hpp"
-#include "glm/glm.hpp"
+#include "../include/Input.hpp"
+#include "../include/FpsCounter.hpp"
+#include "../include/GameManager.hpp"
+#include "../glm/glm.hpp"
 
 #include <iostream>
 #include <memory>

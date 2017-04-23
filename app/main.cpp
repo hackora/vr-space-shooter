@@ -208,6 +208,7 @@ void reshape(int w, int h)
 int main(int argc, char** argv)
 {
   srand (time(NULL));
+  
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGB);
   glutInitWindowSize(700, 700);

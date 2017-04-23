@@ -1,9 +1,9 @@
 #pragma once
 
-//#include <windows.h>
-#include <GL/gl.h>
-//#include <GL/glew.h>
-#include <GL/glu.h>
+#include <windows.h>
+//#include <GL/gl.h>
+#include <GL/glew.h>
+//#include <GL/glu.h>
 #include "Weapon.hpp"
 
 class Missile : public Weapon

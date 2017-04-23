@@ -1,7 +1,8 @@
 #include "../include/ParticleEngine.hpp"
 //#include "SOIL.h"
 #include <iostream>
-#include <GL/glut.h> 
+#include <GL\glew.h>
+//#include <GL/glut.h> 
 
 
 ParticleEngine::ParticleEngine()

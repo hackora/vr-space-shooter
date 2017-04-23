@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <GL\glew.h>
 #include <limits>
 #include "../include/BattleField.hpp"
 //#include "SOIL.h"

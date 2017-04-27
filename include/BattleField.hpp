@@ -1,13 +1,15 @@
 #pragma once
 
-#include <windows.h>
+//#include <windows.h>
 #include <GL/glew.h>
 //#include <GL/gl.h>
 #include <GL/freeglut.h>
 //#include <GL/glu.h>
 
 #include "SceneObject.hpp"
-#include "../glm/glm.hpp"
+#include "glm/glm.hpp"
+#include "Shader.hpp"
+
 
 class BattleField : public SceneObject
 {
@@ -30,4 +32,9 @@ class BattleField : public SceneObject
         int sizeZ = 1024;
         int Y     = -16;
         GLuint BfTexture_;
+        //Multitexturing
+        GLuint heightTex;
+        GLuint colorTex;
+        Shader myShader;
+
 };

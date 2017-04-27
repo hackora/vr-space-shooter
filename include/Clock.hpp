@@ -9,7 +9,7 @@
 #include <sys/timeb.h>
 #include <time.h>
 #define NOMINMAX
-#include <windows.h>
+//#include <windows.h>
 #endif
 
 #include <cassert>

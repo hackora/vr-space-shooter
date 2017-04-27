@@ -1,5 +1,5 @@
-//#include <pthread.h>
-#include <windows.h>
+#include <pthread.h>
+//#include <windows.h>
 #include <GL/glew.h>
 //#include <GL/gl.h>
 #include <GL/freeglut.h>
@@ -9,7 +9,7 @@
 #include "../include/Input.hpp"
 #include "../include/FpsCounter.hpp"
 #include "../include/GameManager.hpp"
-#include "../glm/glm.hpp"
+#include "glm/glm.hpp"
 
 #include <iostream>
 #include <memory>
@@ -25,8 +25,9 @@ int mousePosX, mousePosY;
 float moveX, moveY;
 static bool _initialized;
 
-/*void* simpleFunc(void*) { return NULL; } 
-void forcePThreadLink() { pthread_t t1; pthread_create(&t1, NULL, &simpleFunc, NULL); }*/
+//Getting around Segmentation fault (core dumped) when launching application in Ubuntu 
+void* simpleFunc(void*) { return NULL; } 
+void forcePThreadLink() { pthread_t t1; pthread_create(&t1, NULL, &simpleFunc, NULL); }
 
 void init()
 {
@@ -205,6 +206,85 @@ void reshape(int w, int h)
 //  gluLookAt(0.0, 0.0, 10.0,     0.0, 0.0, 0.0,    0.0, 1.0, 0.0);
 }
 
+static void NextClearColor(void)
+{
+    static int color = 0;
+
+    switch( color++ )
+    {
+        case 0:  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+             break;
+        case 1:  glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
+             break;
+        default: glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+             color = 0;
+             break;
+    }
+}
+
+//
+// Movement variables
+//
+float fXDiff = 206;
+float fYDiff = 16;
+float fZDiff = 10;
+int xLastIncr = 0;
+int yLastIncr = 0;
+float fXInertia = -0.5;
+float fYInertia = 0;
+float fXInertiaOld;
+float fYInertiaOld;
+float fScale = 1.0;
+float ftime = 0;
+int xLast = -1;
+int yLast = -1;
+char bmModifiers;
+int Rotate = 1;
+
+bool polyModeFill = true;
+
+//
+// Rotation defines
+//
+#define INERTIA_THRESHOLD       1.0f
+#define INERTIA_FACTOR          0.5f
+#define SCALE_FACTOR            0.01f
+#define SCALE_INCREMENT         0.5f
+#define TIMER_FREQUENCY_MILLIS  20
+
+GLfloat RotL = 1 * 3.14f / 180;
+int LastTime = 0;
+
+void getGlVersion( int *major, int *minor )
+{
+    const char* verstr = (const char*)glGetString( GL_VERSION );
+    if( (verstr == NULL) || (sscanf( verstr, "%d.%d", major, minor ) != 2) )
+    {
+        *major = *minor = 0;
+        fprintf( stderr, "Invalid GL_VERSION format!!!\n" );
+    }
+}
+
+/*public*/
+int printOglError(char *file, int line)
+{
+    //
+    // Returns 1 if an OpenGL error occurred, 0 otherwise.
+    //
+    GLenum glErr;
+    int    retCode = 0;
+
+    glErr = glGetError();
+    while (glErr != GL_NO_ERROR)
+    {
+        printf("glError in file %s @ line %d: %s\n", file, line, gluErrorString(glErr));
+        retCode = 1;
+        glErr = glGetError();
+    }
+    return retCode;
+}
+
+
 int main(int argc, char** argv)
 {
   srand (time(NULL));
@@ -217,13 +297,14 @@ int main(int argc, char** argv)
   init();
   glutKeyboardFunc(keyDown);
   glutKeyboardUpFunc(keyUp);
-  glutReshapeFunc(reshape);
+  glutReshapeFunc(reshape); //glutReshapeFunc sets the reshape callback for the current window
   glutDisplayFunc(display);
   glutMouseFunc(mousePressed);
   glutMotionFunc(mouseMoved);
 
   // Add other callback functions here..
 
-  glutMainLoop();
+  glutMainLoop(); // Enters the GLUT event processing loop. This routine should be called at most once in a GLUT program. 
+  //Once called, this routine will never return. It will call as necessary any callbacks that have been registered.
   return 0;
 }

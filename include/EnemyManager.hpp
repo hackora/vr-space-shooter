@@ -1,9 +1,9 @@
 #pragma once
 
-#include <windows.h>
+//#include <windows.h>
 //#include <GL/gl.h>
 //#include <GL/glu.h>
-#include <GL\glew.h>
+#include <GL/glew.h>
 #include "SceneObject.hpp"
 #include "Enemy.hpp"
 

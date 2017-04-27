@@ -1,6 +1,6 @@
 #include "../include/SpaceShip.hpp"
-#include "../glm/glm.hpp"
-#include "../glm/gtc/matrix_transform.hpp"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 #include <iostream>
 
@@ -24,11 +24,15 @@ void SpaceShip::privateInit()
     this->addSubObject(lasers_[i]);
   for(unsigned int i=0;i<missiles_.size();i++)
     this->addSubObject(missiles_[i]);
+  myShader.initShaders("/home/ghada/code/Space-Shooter/shaders/red");
 }
 
 void SpaceShip::privateRender()
 {
-  glColor3f(1.0f, 0.0f, 0.0f);
+  glColor3f(1.0f, 1.0f, 1.0f);
+  myShader.enable();
+  glUseProgram(myShader.getProg());
+
   float size = 1.0f;
   glBegin(GL_QUADS);
     // Near Face
@@ -38,6 +42,7 @@ void SpaceShip::privateRender()
     glTexCoord2f(1.0f, 1.0f); glVertex3f( size,  size-16+size,  0);
     glTexCoord2f(0.0f, 1.0f); glVertex3f(-size,  size-16+size,  0);
   glEnd();
+  myShader.disable();
 }
 
 void SpaceShip::privateUpdate()

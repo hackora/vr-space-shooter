@@ -1,12 +1,13 @@
 #pragma once
 
-#include <windows.h>
+//#include <windows.h>
 #include <GL/glew.h>
 //#include <GL/gl.h>
 //#include <GL/glu.h>
 #include "SceneObject.hpp"
 #include "Laser.hpp"
 #include "Missile.hpp"
+#include "Shader.hpp"
 
 #include <vector>
 
@@ -35,5 +36,7 @@ class SpaceShip : public SceneObject
     	float armor_;
         std::vector<std::shared_ptr<Laser>> lasers_;
         std::vector<std::shared_ptr<Missile>> missiles_;
+        Shader myShader;
+
     
 };

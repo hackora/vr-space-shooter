@@ -37,6 +37,7 @@ class SpaceShip : public SceneObject
         std::vector<std::shared_ptr<Laser>> lasers_;
         std::vector<std::shared_ptr<Missile>> missiles_;
         Shader myShader;
+		GLuint BfTexture_;
 
     
 };

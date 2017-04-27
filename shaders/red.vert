@@ -1,4 +1,5 @@
-void main(void)
+
+void main()
 {
-gl_Position = ftransform();
+	gl_Position = ftransform();
 }

@@ -1,7 +1,6 @@
 #include <GL/glew.h>
 #include <limits>
 #include "../include/BattleField.hpp"
-#include "../include/ShaderTest.h"
 #include "SOIL.h"
 #include <iostream>
 

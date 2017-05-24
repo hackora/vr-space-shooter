@@ -87,7 +87,7 @@ void SpaceShip::moveUp()
 void SpaceShip::moveDown()
 {
   auto pos =getMatrix()[3];
-  if(pos[1]-0.1>0.0)
+  //if(pos[1]-0.1>0.0)
     matrix_ = glm::translate(matrix_, glm::vec3(0.0f, -0.1f, 0.0f));
 }
 

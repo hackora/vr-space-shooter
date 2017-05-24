@@ -28,13 +28,13 @@ class BattleField : public SceneObject
         std::vector< glm::vec2 > textureArray_; 
         // normal array.
         // texture coord array
-        int sizeX = 32;
-        int sizeZ = 1024;
-        int Y     = -16;
+        int sizeX = 257;
+        int sizeZ = 257;
+        int Y     = 100;
         GLuint BfTexture_;
         //Multitexturing
-        GLuint heightTex;
-        GLuint colorTex;
+        GLuint heightMap_;
+        GLuint colorMap_;
         Shader myShader;
 
 };

@@ -24,7 +24,7 @@ void BattleField::privateInit()
   // Create texture array 
   for(int z=0; z<sizeZ;z++){
     for(int x = 0; x<sizeX ; x++){
-   	  textureArray_.push_back(glm::vec2(x/(sizeX-1), z/(sizeZ-1))); //BattleField in (OXZ) plane, y=0
+   	  textureArray_.push_back(glm::vec2((double)x/(sizeX-1), (double)z/(sizeZ-1))); //BattleField in (OXZ) plane, y=0
       }
   }
 
@@ -34,11 +34,11 @@ void BattleField::privateInit()
 
   // Create index arrays
   for(int i=0; i<sizeZ-1;i++){
-	for(int j = 0; j<sizeX ; j++){
-	  indexArray_.push_back( j + sizeX + i*sizeX );
+    for(int j = 0; j<sizeX ; j++){
+      indexArray_.push_back( j + sizeX + i*sizeX );
    	  indexArray_.push_back( j + i*sizeX );
-	}
-	indexArray_.push_back(restartPrimiveValue);
+    }
+    indexArray_.push_back(restartPrimiveValue);
   }
 
 /*
@@ -76,14 +76,16 @@ void BattleField::privateInit()
   glBindTexture(GL_TEXTURE_2D, 0); //unbind texture*/
 
 
+  GLint texLoc;
+  //initiate shader
+  myShader.initShaders("/home/ghada/Desktop/game/Space-Shooter/shaders/bf");
+  myShader.enable();
 
-/*
+  //color map
 
-  //Multitexturing
-  
   int texWidth0, texHeight0;
 
-  unsigned char* image0 = SOIL_load_image("/home/ghada/code/Space-Shooter/img/color_height/maps/heightMap2012.bmp", &texWidth0, &texHeight0, 0, SOIL_LOAD_RGB);
+  unsigned char* image0 = SOIL_load_image("/home/ghada/code/Space-Shooter/img/color_height/maps/colorMap2012.bmp", &texWidth0, &texHeight0, 0, SOIL_LOAD_RGB);
 
   if(!image0){
     std::cout << "Failed to load texture: " << sizeof(image0) << std::endl;
@@ -93,73 +95,62 @@ void BattleField::privateInit()
     std::cout << "Texture loaded: " << "size " << sizeof(image0) << " height " << texHeight0 << " width "<< texWidth0 << std::endl;
   }
 
-  unsigned char* image1 = SOIL_load_image("/home/ghada/code/Space-Shooter/img/color_height/maps/colorMap2012.bmp", &texWidth0, &texHeight0, 0, SOIL_LOAD_RGB);
+  glActiveTexture(GL_TEXTURE0);
+  glGenTextures(1, &colorMap_);
+  glBindTexture(GL_TEXTURE_2D, colorMap_);
+
+  //Texture parameters
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); // Set texture wrapping to GL_REPEAT (usually basic wrapping method)
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+  // Set texture filtering parameters
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texWidth0, texHeight0, 0, GL_RGB, GL_UNSIGNED_BYTE, image0);
+
+  //pass it to shader
+  texLoc = glGetUniformLocation(myShader.getProg(), "color");
+  glActiveTexture(GL_TEXTURE0);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D,colorMap_);
+  glUniform1i(texLoc, 0);
+
+
+  //height map
+
+  int texWidth1, texHeight1;
+
+  unsigned char* image1 = SOIL_load_image("/home/ghada/Desktop/game/Space-Shooter/img/color_height/maps/Heightmap.png", &texWidth1, &texHeight1, 0, SOIL_LOAD_RGB);
 
   if(!image1){
     std::cout << "Failed to load texture: " << sizeof(image1) << std::endl;
 
   }
   else{
-    std::cout << "Texture loaded: " << "size " << sizeof(image1) << " height " << texHeight0 << " width "<< texWidth0 << std::endl;
+    std::cout << "Texture loaded: " << "size " << sizeof(image1) << " height " << texHeight1 << " width "<< texWidth1 << std::endl;
   }
 
-  
-
-  glActiveTexture(GL_TEXTURE0);
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D,heightTex);
-
-
-  // Set the texture wrapping/filtering options (on the currently bound texture object)
-  // Set the texture wrapping parameters
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // Set texture wrapping to GL_REPEAT (usually basic wrapping method)
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  // Set texture filtering parameters
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texWidth0, texHeight0, 0, GL_RGB, GL_UNSIGNED_BYTE, image0);
-  
-
-
-
   glActiveTexture(GL_TEXTURE1);
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D,colorTex);
+  glGenTextures(1, &heightMap_);
+  glBindTexture(GL_TEXTURE_2D, heightMap_);
 
-
-  // Set the texture wrapping/filtering options (on the currently bound texture object)
-  // Set the texture wrapping parameters
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // Set texture wrapping to GL_REPEAT (usually basic wrapping method)
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  //Texture parameters
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP); // Set texture wrapping to GL_REPEAT (usually basic wrapping method)
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
   // Set texture filtering parameters
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texWidth0, texHeight0, 0, GL_RGB, GL_UNSIGNED_BYTE, image1);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-  
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texWidth1, texHeight1, 0, GL_RGB, GL_UNSIGNED_BYTE, image1);
 
-  glGenTextures(1, &heightTex);
-  glBindTexture(GL_TEXTURE_2D, heightTex);
-  glGenTextures(1, &colorTex);
-  glBindTexture(GL_TEXTURE_2D, colorTex);
-
-
-  myShader.initShaders("/home/ghada/code/Space-Shooter/shaders/bf");
-  myShader.enable();
-  GLint texLoc;
+  //pass it to shader
   texLoc = glGetUniformLocation(myShader.getProg(), "height");
-  glActiveTexture(GL_TEXTURE0);
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D,heightTex);
-  glUniform1i(texLoc, 0);
-
-  texLoc = glGetUniformLocation(myShader.getProg(), "color");
   glActiveTexture(GL_TEXTURE1);
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D,colorTex);
+  glBindTexture(GL_TEXTURE_2D,heightMap_);
   glUniform1i(texLoc, 1);
 
-  myShader.disable();*/
+  myShader.disable();
+
 }
 
 
@@ -183,39 +174,39 @@ void BattleField::privateRender()
   glDisable(GL_TEXTURE_2D);*/
 
 
-  /*myShader.enable();
+  myShader.enable();
 
-  //glColor3f(1.0f, 1.0f, 1.0f);
+  glColor3f(1.0f, 1.0f, 1.0f);
 
-  
+  glEnable(GL_PRIMITIVE_RESTART);
+
   glActiveTexture(GL_TEXTURE0);
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, heightTex);
+  glBindTexture(GL_TEXTURE_2D, colorMap_);
 
   glActiveTexture(GL_TEXTURE1);
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, colorTex);*/
+  glBindTexture(GL_TEXTURE_2D, heightMap_);
 
-  glColor3f(1.0, 0.0, 1.0);
-  glEnable(GL_PRIMITIVE_RESTART);
   // Render the battlefield
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnableClientState(GL_VERTEX_ARRAY); // enable vertex arrays
   glTexCoordPointer(2, GL_FLOAT, 0, &textureArray_[0]);
   glVertexPointer(3, GL_FLOAT, 0, &vertexArray_[0]); // set vertex pointer
   glDrawElements( GL_QUAD_STRIP,indexArray_.size(),GL_UNSIGNED_INT,&indexArray_[0]); //strips
-  //glDrawArrays (GL_POINTS,0,vertexArray_.size());
   glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  glDisable(GL_PRIMITIVE_RESTART);
+  
 
 
- /* glActiveTexture(GL_TEXTURE0);
-  glDisable(GL_TEXTURE_2D);
   glActiveTexture(GL_TEXTURE1);
   glDisable(GL_TEXTURE_2D);
+  glActiveTexture(GL_TEXTURE0);
+  glDisable(GL_TEXTURE_2D);
 
-  myShader.disable();*/
+  glDisable(GL_PRIMITIVE_RESTART);
+
+  myShader.disable();
 }
 
 void BattleField::privateUpdate()

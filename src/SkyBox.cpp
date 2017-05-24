@@ -22,13 +22,6 @@ void SkyBox::privateInit()
 	texSampler = glGetUniformLocation(skyboxShader.getProg(), "skybox");
 	glUniform1i(texSampler, 0);
 
-	/*faces_.push_back("/home/ghada/code/Space-Shooter/img/blood/right.tga");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/blood/left.tga");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/blood/top.tga");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/blood/bottom.tga");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/blood/back.tga");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/blood/front.tga");*/
-
 	faces_.push_back("/home/ghada/code/Space-Shooter/img/skybox/right.jpg");
 	faces_.push_back("/home/ghada/code/Space-Shooter/img/skybox/left.jpg");
 	faces_.push_back("/home/ghada/code/Space-Shooter/img/skybox/top.jpg");

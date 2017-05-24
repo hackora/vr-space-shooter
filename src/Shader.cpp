@@ -1,12 +1,10 @@
-#include "../include/Shader.hpp"
-#include <windows.h>
+#include "Shader.hpp"
+//#include <windows.h>
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
 #include <fcntl.h>
-#include <fstream>
-#include <string>
-//#include <unistd.h>  // close and lseek was not declared (linux)
+#include <unistd.h>  // close and lseek was not declared (linux)
 
 using namespace std;
 
@@ -181,16 +179,23 @@ int Shader::shaderSize(char *fileName, ShaderType shaderType)
       break;
   }
 
-  std::ifstream ifStream(name);
-  std::string sString;
-
-  if (ifStream.is_open()) {
-	  sString = std::string((std::istreambuf_iterator<char>(ifStream)),
-		  std::istreambuf_iterator<char>());
-  }
-  count = sString.size();
+  // Open the file, seek to the end to find its length (WIN32)
+  #ifdef WIN32 /*[*/
+    fd = _open(name, _O_RDONLY);
+    if (fd != -1)
+    {
+        count = _lseek(fd, 0, SEEK_END) + 1;
+        _close(fd);
+    }
+#else /*][*/
+    fd = open(name, O_RDONLY);
+    if (fd != -1)
+    {
+        count = lseek(fd, 0, SEEK_END) + 1;
+        close(fd);
+    }
+#endif /*]*/
   return count;
-
 }
 
 int Shader::readShader(char *fileName, ShaderType shaderType, char *shaderText, int size)

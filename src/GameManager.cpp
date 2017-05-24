@@ -18,10 +18,13 @@ void GameManager::privateInit()
   //  this->addSubObject(cam_);
   //  matrix_.translate(0.0f, 0.0f, -99.0f);
 
+  skybox_.reset(new SkyBox(cam_));
+  this->addSubObject(skybox_);
+
   bf_.reset(new BattleField());
   this->addSubObject(bf_);
 
-  spaceship_.reset(new SpaceShip());
+  spaceship_.reset(new SpaceShip(skybox_->getTextureId()));
   this->addSubObject(spaceship_);
 
   em_.reset(new EnemyManager());

@@ -1,17 +1,8 @@
+#version 120
 
-uniform samplerCube cubeMap;
+uniform samplerCube skybox;
 
-varying vec3 normal;
-varying vec3 incident;
-
-void main(void)
+void main()
 {
-  vec3 normalVec = normalize(normal);
-  vec3 incidentVec = normalize(incident);
-  
-  // Calculate reflection color
-  vec3 reflectColor = textureCube(cubeMap, reflect(incidentVec, normalVec)).xyz;
-  
-  // Fragment color
-  gl_FragColor = vec4(reflectColor, 1.0);
+    gl_FragColor = textureCube(skybox, gl_TexCoord[0].stp);
 }

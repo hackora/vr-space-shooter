@@ -11,6 +11,7 @@
 #include "Camera.hpp"
 #include "EnemyManager.hpp"
 #include "ParticleEngine.hpp"
+#include "SkyBox.hpp"
 
 #include <memory>
 
@@ -36,5 +37,6 @@ class GameManager : public SceneObject
     std::shared_ptr<Camera> cam_;
     std::shared_ptr<SpaceShip> spaceship_;
     std::shared_ptr<ParticleEngine> pe_;
+    std::shared_ptr<SkyBox> skybox_;
 
 };

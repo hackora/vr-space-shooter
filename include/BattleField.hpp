@@ -7,7 +7,7 @@
 //#include <GL/glu.h>
 
 #include "SceneObject.hpp"
-#include "../glm/glm.hpp"
+#include "glm/glm.hpp"
 #include "Shader.hpp"
 
 
@@ -28,9 +28,9 @@ class BattleField : public SceneObject
         std::vector< glm::vec2 > textureArray_; 
         // normal array.
         // texture coord array
-        int sizeX = 64;
+        int sizeX = 32;
         int sizeZ = 1024;
-        int Y     = 0;
+        int Y     = -16;
         GLuint BfTexture_;
         //Multitexturing
         GLuint heightTex;

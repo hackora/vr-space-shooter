@@ -70,7 +70,7 @@ void display()
   if(keyPressed[KEY_ID_W]==true)      gm->getSpaceship()->moveUp();
   if(keyPressed[KEY_ID_A]==true)      gm->getSpaceship()->moveLeft();
   if(keyPressed[KEY_ID_D]==true)      gm->getSpaceship()->moveRight();
-  if(keyPressed[KEY_ID_S]==true)      gm->getSpaceship()->moveDown();
+  if(keyPressed[KEY_ID_S]==true)      gm->getSpaceship()->moveForward();
   if(keyPressed[KEY_ID_F]==true){
     auto missiles = gm->getSpaceship()->getMissile();
     if(missiles.size()>=1){

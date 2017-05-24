@@ -1,6 +1,6 @@
 #include "../include/Camera.hpp"
-#include "../glm/glm.hpp"
-#include "../glm/gtc/matrix_transform.hpp"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 #define PIOVER180 0.0174532925199
 

@@ -1,3 +1,4 @@
+
 #include <GL/glew.h>
 #include <limits>
 #include "../include/BattleField.hpp"
@@ -119,7 +120,7 @@ void BattleField::privateInit()
 
   int texWidth1, texHeight1;
 
-  unsigned char* image1 = SOIL_load_image("/home/ghada/Desktop/game/Space-Shooter/img/color_height/maps/Heightmap.png", &texWidth1, &texHeight1, 0, SOIL_LOAD_RGB);
+  unsigned char* image1 = SOIL_load_image("/home/ghada/Desktop/game/Space-Shooter/img/color_height/maps/heightMap2012.bmp", &texWidth1, &texHeight1, 0, SOIL_LOAD_RGB);
 
   if(!image1){
     std::cout << "Failed to load texture: " << sizeof(image1) << std::endl;
@@ -209,6 +210,6 @@ void BattleField::privateRender()
   myShader.disable();
 }
 
-void BattleField::privateUpdate()
+void BattleField::privateUpdate(double dt)
 {
 }

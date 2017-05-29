@@ -20,7 +20,7 @@ class BattleField : public SceneObject
     protected:
         virtual void privateInit();
 		virtual void privateRender();
-		virtual void privateUpdate();
+		virtual void privateUpdate(double dt);
 
 	private:
         std::vector< glm::vec3 > vertexArray_; // Maybe two-dim vector and several arrays
@@ -28,9 +28,9 @@ class BattleField : public SceneObject
         std::vector< glm::vec2 > textureArray_; 
         // normal array.
         // texture coord array
-        int sizeX = 257;
-        int sizeZ = 257;
-        int Y     = 100;
+        int sizeX = 64;
+        int sizeZ = 512;
+        int Y     = 0;
         GLuint BfTexture_;
         //Multitexturing
         GLuint heightMap_;

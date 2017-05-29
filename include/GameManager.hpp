@@ -29,7 +29,7 @@ class GameManager : public SceneObject
   protected:
     virtual void privateInit();
 	virtual void privateRender();
-	virtual void privateUpdate();
+	virtual void privateUpdate(double dt);
 
 	private:
     std::shared_ptr<BattleField> bf_;

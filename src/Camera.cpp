@@ -23,7 +23,7 @@ void Camera::privateRender()
   // not drawing any camera geometry
 }
 
-void Camera::privateUpdate()
+void Camera::privateUpdate(double dt)
 {
 
 }

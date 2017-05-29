@@ -25,7 +25,7 @@ void Missile::privateRender()
 	}
 }
 
-void Missile::privateUpdate()
+void Missile::privateUpdate(double dt)
 {
 	if(fire_){
 		matrix_ = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f,-10*counter));

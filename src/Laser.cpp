@@ -35,7 +35,7 @@ void Laser::privateRender()
 	fire_=false;
 }
 
-void Laser::privateUpdate()
+void Laser::privateUpdate(double dt)
 {
 
 }

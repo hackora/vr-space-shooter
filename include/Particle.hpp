@@ -15,7 +15,7 @@ class Particle : public SceneObject
   protected:
     void privateInit();
 	void privateRender();
-	void privateUpdate();
+	void privateUpdate(double dt);
 
 	public:
 	  bool	active;					// Active (Yes/No)

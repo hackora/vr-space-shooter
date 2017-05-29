@@ -16,9 +16,9 @@ class Enemy : public SceneObject
         void setMovement(int mvt);
         bool hasWeapon=false;
         void addLaser();
-        void moveSinus();
-        void moveStraight();
-        void moveZigzag();
+        void moveSinus(double dt);
+        void moveStraight(double dt);
+        void moveZigzag(double dt);
         void moveRight();
         void moveLeft();
         void moveUp();
@@ -29,10 +29,10 @@ class Enemy : public SceneObject
     protected:
         void privateInit();
         void privateRender();
-        void privateUpdate();
+        void privateUpdate(double dt);
 
     private:
-        float speed_;
+        float speed_= 100.0f;
         float life_;
         float armor_;
         int   list_id;
@@ -40,5 +40,6 @@ class Enemy : public SceneObject
         GLuint texture_;
         int movement;
         std::vector<std::shared_ptr<Laser>> lasers_;
+        std::vector< glm::vec3 > vertexArray_;
 };
 

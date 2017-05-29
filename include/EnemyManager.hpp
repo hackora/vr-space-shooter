@@ -20,7 +20,7 @@ class EnemyManager : public SceneObject
     protected:
         void privateInit();
         void privateRender();
-        void privateUpdate();
+        void privateUpdate(double dt);
 
     private:
         std::vector<std::shared_ptr<Enemy>> enemies;

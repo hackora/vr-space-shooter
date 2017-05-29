@@ -60,7 +60,7 @@ void SpaceShip::privateRender()
   myShader.disable();
 }
 
-void SpaceShip::privateUpdate()
+void SpaceShip::privateUpdate(double dt)
 {
 }
 

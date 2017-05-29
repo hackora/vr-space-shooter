@@ -19,7 +19,7 @@ class ParticleEngine : public SceneObject
   protected:
     virtual void privateInit();
 	virtual void privateRender();
-	virtual void privateUpdate();
+	virtual void privateUpdate(double dt);
 
 	private:
 		int MAX_PARTICLES =100;

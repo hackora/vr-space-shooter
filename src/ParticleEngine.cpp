@@ -121,7 +121,7 @@ void ParticleEngine::privateRender()
    glDisable(GL_TEXTURE_2D);*/
 }
 
-void ParticleEngine::privateUpdate()
+void ParticleEngine::privateUpdate(double dt)
 {
 	//col++;
 }

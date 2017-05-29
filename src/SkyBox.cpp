@@ -112,7 +112,7 @@ void SkyBox::privateRender()
 
 }
 
-void SkyBox::privateUpdate()
+void SkyBox::privateUpdate(double dt)
 {
 	matrix_[3][0] = -cam_->getMatrix()[3][0];
 	matrix_[3][1] = -cam_->getMatrix()[3][1];

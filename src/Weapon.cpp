@@ -17,6 +17,6 @@ void Weapon::privateRender()
 {
 }
 
-void Weapon::privateUpdate()
+void Weapon::privateUpdate(double dt)
 {
 }

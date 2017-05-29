@@ -42,7 +42,7 @@ class SceneObject
   // This method causes all children to be rendered, don't override this one!
   void render();
   // This method causes all children to be updated, don't override this one!
-  void update(double fps);
+  void update(double dt);
   // This method causes all children to be initialized,don't override this one!
   void init();
 
@@ -58,13 +58,13 @@ class SceneObject
   // Override this method with your own render-implementation.
   virtual void privateRender() {}
   // Override this method with your own update-implementation.
-  virtual void privateUpdate() {}
+  virtual void privateUpdate(double dt) {}
   // Override this method with your own init-implementation.
   virtual void privateInit() {}
 
   // This member contains the time since last frame. It is set
   // before privateUpdate is called.
-  double fps_;
+  //double dt_;
 
   // This is the transformation-matrix of the scene object.
   // Relative to the object's parent. Defaults to the identity matrix.

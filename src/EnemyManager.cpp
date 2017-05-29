@@ -19,7 +19,7 @@ void EnemyManager::privateRender()
 {
 }
 
-void EnemyManager::privateUpdate()
+void EnemyManager::privateUpdate(double dt)
 {
 
 }

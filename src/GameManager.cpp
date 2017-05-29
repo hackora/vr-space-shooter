@@ -60,7 +60,7 @@ void GameManager::privateRender()
 
 }
 
-void GameManager::privateUpdate()
+void GameManager::privateUpdate(double dt)
 {
   // Instead of adding alle objects in the scene as subobject to the camera they are added as subobjects
   // to the game manager. Therefore, we set the game manager matrix equal to the camera matrix.

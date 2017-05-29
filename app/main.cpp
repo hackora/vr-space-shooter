@@ -7,7 +7,8 @@
 #include <stdio.h>
 #include <vector>
 #include "../include/Input.hpp"
-#include "../include/FpsCounter.hpp"
+//#include "../include/FpsCounter.hpp"
+#include "../include/Clock.hpp"
 #include "../include/GameManager.hpp"
 #include "glm/glm.hpp"
 
@@ -16,7 +17,8 @@
 #include <random>
 
 std::shared_ptr<GameManager> gm;
-siut::FpsCounter counter;
+//siut::FpsCounter counter;
+siut::Clock timer;
 
 int window;
 
@@ -51,7 +53,9 @@ void init()
   glShadeModel(GL_SMOOTH);
   glEnable(GL_DEPTH_TEST);
 
-  counter.start();
+  //counter.start();
+  timer.start();
+
 
   gm.reset(new GameManager());
   gm->init();
@@ -64,7 +68,11 @@ void display()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  gm->update(counter.fps());
+  double dt = timer.stop();
+  //std::cout<<dt<<'\n';
+  timer.reset();
+  gm->update(dt);
+  timer.start();
   gm->render();
 
   if(keyPressed[KEY_ID_W]==true)      gm->getSpaceship()->moveUp();
@@ -94,7 +102,9 @@ void display()
   gm->enemyFreq++;
 
   glutSwapBuffers();
+  //counter.frame();
   glutPostRedisplay();
+
 
 }
 

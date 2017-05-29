@@ -1,5 +1,6 @@
 #include "../include/Enemy.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "glm/glm.hpp"
 #include <GL/glew.h>
 #include <GL/glut.h> 
 //#include "SOIL.h"
@@ -16,28 +17,35 @@ Enemy::~Enemy()
 
 void Enemy::privateInit(){
 
-   list_id = glGenLists(1);
+   //list_id = glGenLists(1);
    //list_id is an integer
-   glNewList(list_id, GL_COMPILE);
-   glBegin(GL_QUADS);
+   //glNewList(list_id, GL_COMPILE);
+   //glBegin(GL_QUADS);
    glEnable(GL_COLOR_MATERIAL);
    glColorMaterial(GL_FRONT, GL_DIFFUSE); // glColor now changes the diffuse component
    glColor3f(0.2f, 0.5f, 0.8f);
-   glNormal3f(0.0f, 0.0f, 1.0f);
+   /*glNormal3f(0.0f, 0.0f, 1.0f);
    glVertex3f(-2.5f, 0.0f-16, -1024.0f);
    glVertex3f(2.5f, 0.0f-16, -1024.0f);
    glVertex3f(2.5f, 5.0f-16, -1024.0f);
-   glVertex3f(-2.5f, 5.0f-16, -1024.0f);
+   glVertex3f(-2.5f, 5.0f-16, -1024.0f);*/
+   // Create vertex arrays
+  vertexArray_.push_back(glm::vec3(-2.5f, -2.5f, 0.0f));
+  vertexArray_.push_back(glm::vec3(2.5f, -2.5f, 0.0f));
+  vertexArray_.push_back(glm::vec3(2.5f, 2.5f, 0.0f));
+  vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));
+
+  matrix_ = glm::translate(matrix_, glm::vec3(0.0f, -16.0f,-1024.0f));
 
    //glLightfv(GL_LIGHT0, GL_SPECULAR, light_spec);
-   glColorMaterial(GL_FRONT, GL_SPECULAR); // glColor now changes the specular component
-   glColor3f(0.9f, 0.0f, 0.2f);
+   //glColorMaterial(GL_FRONT, GL_SPECULAR); // glColor now changes the specular component
+   //glColor3f(0.9f, 0.0f, 0.2f);
    //glutSolidSphere (5.0, 20, 10);  
    //glutSolidTorus (2.0, 4.0, 50.0, 8.0);
    //glutWireTorus (2.0, 3.0, 3.0, 8.0); //weird torus
    glDisable(GL_COLOR_MATERIAL);
-   glEnd();
-   glEndList();
+   /*glEnd();
+   glEndList();*/
 
 /*
   //Texture using SOIL library
@@ -79,7 +87,7 @@ void Enemy::privateInit(){
 void Enemy::privateRender()
 {
 
-  glCallList(list_id);
+  //glCallList(list_id);
   
   /*// Enable texturing before render
   glEnable(GL_TEXTURE_2D);
@@ -105,32 +113,39 @@ void Enemy::privateRender()
   glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
   glDisable(GL_TEXTURE_2D);*/
 
+  /*glEnable(GL_COLOR_MATERIAL);
+  glColorMaterial(GL_FRONT, GL_DIFFUSE); // glColor now changes the diffuse component
+  glColor3f(0.2f, 0.5f, 0.8f);*/
 
+  // Render the battlefield
+  glEnableClientState(GL_VERTEX_ARRAY); // enable vertex arrays
+  glVertexPointer(3, GL_FLOAT, 0, &vertexArray_[0]); // set vertex pointer
+  glDrawArrays(GL_QUADS,0,4);
+  glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+  //glDisable(GL_COLOR_MATERIAL);
 
 }
 
-void Enemy::privateUpdate()
+void Enemy::privateUpdate(double dt)
 {
   switch (movement){
     case 0:
-      moveSinus();
+      moveSinus(dt);
       break;
     case 1:
-      moveStraight();
+      moveStraight(dt);
       break;
     case 2:
-      moveZigzag();
+      moveZigzag(dt);
       break;
     default:
-      moveStraight();
+      moveStraight(dt);
       break;
   }
 
   if(hasWeapon){
     lasers_.front()->fire();
   }
-
-  counter+=0.016;
      
 }
 
@@ -147,17 +162,28 @@ void Enemy::addLaser()
   lasers_.push_back(laser);
 }
 
-void Enemy::moveSinus()
+void Enemy::moveSinus(double dt)
 {
-  matrix_ = glm::translate(glm::mat4(), glm::vec3(16*std::sin(counter), 0.0f,10*counter));
+  matrix_ = glm::translate(matrix_, glm::vec3(0.0f, 0.0f,dt*speed_));
+  //matrix_ = glm::translate(matrix_, glm::vec3(1*std::sin(counter*10), 0.0f,10/fps_));
+  /*glm::vec4 p=glm::vec4(0.0f, -16.0f,-1024,0);
+  glm::vec4 t = glm::vec4(1*std::sin(counter*10), 0.0f,counter,0);
+  matrix_[3] = matrix_[0]*(p[0]+t[0])+matrix_[1]*(p[1]+t[1])+matrix_[2]*(p[2]+t[2]);*/
 }
-void Enemy::moveStraight()
+void Enemy::moveStraight(double dt)
 {
-  matrix_ = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f,10*counter));
+  matrix_ = glm::translate(matrix_, glm::vec3(0.0f, 0.0f,dt*speed_));
+  /*glm::vec4 p=glm::vec4(0.0f, -16.0f,-1024,0);
+  glm::vec4 t=glm::vec4(0.0f, 0.0f,counter,0);
+  matrix_[3] = matrix_[0]*(p[0]+t[0])+matrix_[1]*(p[1]+t[1])+matrix_[2]*(p[2]+t[2]);*/
 }
-void Enemy::moveZigzag()
+void Enemy::moveZigzag(double dt)
 {
-  matrix_ = glm::translate(glm::mat4(), glm::vec3(16*std::sin(counter), 0.0f,10*counter));
+  matrix_ = glm::translate(matrix_, glm::vec3(0.0f, 0.0f,dt*speed_));
+  //matrix_ = glm::translate(matrix_, glm::vec3(-1*std::sin(counter*10), 0.0f,10/fps_));
+  /*glm::vec4 p=glm::vec4(0.0f, -16.0f,-1024,0);
+  glm::vec4 t=glm::vec4(1*std::sin(counter*10), 0.0f,counter,0);
+  matrix_[3] = matrix_[0]*(p[0]+t[0])+matrix_[1]*(p[1]+t[1])+matrix_[2]*(p[2]+t[2]);*/
 }
 
 void Enemy::moveRight()

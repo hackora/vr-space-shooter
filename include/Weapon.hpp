@@ -17,7 +17,7 @@ class Weapon : public SceneObject
   	protected:
     	void privateInit();
 		void privateRender();
-		void privateUpdate();
+		void privateUpdate(double dt);
 
 	private:
     	float life_;

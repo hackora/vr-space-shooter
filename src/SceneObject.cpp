@@ -30,13 +30,12 @@ void SceneObject::render()
   glPopMatrix();
 }
 
-void SceneObject::update(double fps)
+void SceneObject::update(double dt)
 {
-  this->fps_ = fps;
-  this->privateUpdate();
+  this->privateUpdate(dt);
   for(std::vector<std::shared_ptr<SceneObject> >::iterator it = children_.begin();
       it != children_.end(); it++)
-      (*it)->update(fps);
+      (*it)->update(dt);
 }
 
 void SceneObject::init()

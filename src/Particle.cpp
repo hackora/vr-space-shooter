@@ -17,7 +17,7 @@ void Particle::privateRender()
 {
 }
 
-void Particle::privateUpdate()
+void Particle::privateUpdate(double dt)
 {
 
 }

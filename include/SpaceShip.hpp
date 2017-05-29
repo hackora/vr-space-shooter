@@ -34,6 +34,7 @@ class SpaceShip : public SceneObject
 		float speed_;
     	float life_;
     	float armor_;
+        std::vector< glm::vec3 > vertexArray_;
         std::vector<std::shared_ptr<Laser>> lasers_;
         std::vector<std::shared_ptr<Missile>> missiles_;
         Shader myShader;

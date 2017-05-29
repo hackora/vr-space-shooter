@@ -23,6 +23,13 @@ void SpaceShip::privateInit()
   texSampler = glGetUniformLocation(myShader.getProg(), "reflection");
   glUniform1i(texSampler, textureID);
 
+  // Create vertex arrays
+  vertexArray_.push_back(glm::vec3(-2.5f, -2.5f, 0.0f));
+  vertexArray_.push_back(glm::vec3(2.5f, -2.5f, 0.0f));
+  vertexArray_.push_back(glm::vec3(2.5f, 2.5f, 0.0f));
+  vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));
+
+
   auto laser = std::make_shared<Laser>();
   auto missile = std::make_shared<Missile>();
 
@@ -42,21 +49,12 @@ void SpaceShip::privateRender()
   //glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
   myShader.enable();
 
-  //float size = 1.0f;
-  //glutSolidTorus (2.0, 4.0, 50.0, 8.0);
-  //glutSolidCube (5.0);
-  glutSolidSphere(4,50,50);
+  // Render the spaceship
+  glEnableClientState(GL_VERTEX_ARRAY); // enable vertex arrays
+  glVertexPointer(3, GL_FLOAT, 0, &vertexArray_[0]); // set vertex pointer
+  glDrawArrays(GL_QUADS,0,4);
+  glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 
-  /*glBegin(GL_QUADS);
-    // Near Face
-    glNormal3f( 0.0f, 0.0f, 1.0f);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size-16+size,  0);
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( size, -size-16+size,  0);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( size,  size-16+size,  0);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(-size,  size-16+size,  0);
-  glEnd();*/
-
-  //glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
   myShader.disable();
 }
 

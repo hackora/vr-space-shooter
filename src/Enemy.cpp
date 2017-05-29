@@ -35,7 +35,7 @@ void Enemy::privateInit(){
   vertexArray_.push_back(glm::vec3(2.5f, 2.5f, 0.0f));
   vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));
 
-  matrix_ = glm::translate(matrix_, glm::vec3(0.0f, -16.0f,-1024.0f));
+  matrix_ = glm::translate(matrix_, glm::vec3(0.0f, -16.0f,-500.0f));
 
    //glLightfv(GL_LIGHT0, GL_SPECULAR, light_spec);
    //glColorMaterial(GL_FRONT, GL_SPECULAR); // glColor now changes the specular component
@@ -113,35 +113,49 @@ void Enemy::privateRender()
   glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
   glDisable(GL_TEXTURE_2D);*/
 
-  /*glEnable(GL_COLOR_MATERIAL);
+  glEnable(GL_COLOR_MATERIAL);
   glColorMaterial(GL_FRONT, GL_DIFFUSE); // glColor now changes the diffuse component
-  glColor3f(0.2f, 0.5f, 0.8f);*/
+  glColor3f(0.2f, 0.5f, 0.8f);
 
   // Render the battlefield
   glEnableClientState(GL_VERTEX_ARRAY); // enable vertex arrays
   glVertexPointer(3, GL_FLOAT, 0, &vertexArray_[0]); // set vertex pointer
   glDrawArrays(GL_QUADS,0,4);
   glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
-  //glDisable(GL_COLOR_MATERIAL);
+  glDisable(GL_COLOR_MATERIAL);
 
 }
 
 void Enemy::privateUpdate(double dt)
 {
+  glm::vec3 angularVelocity;
   switch (movement){
     case 0:
-      moveSinus(dt);
+      angularVelocity = movePattern1(dt);
       break;
     case 1:
-      moveStraight(dt);
+      angularVelocity = movePattern2(dt);
       break;
     case 2:
-      moveZigzag(dt);
+      angularVelocity = movePattern3(dt);
       break;
     default:
-      moveStraight(dt);
+      angularVelocity = movePattern1(dt);
       break;
   }
+
+  glm::mat4 twistMatrix; //Screw Theory
+
+  twistMatrix[0] = glm::vec4(0.0f,angularVelocity[2],-angularVelocity[1],0.0f);
+  twistMatrix[1] = glm::vec4(-angularVelocity[2],0.0f,angularVelocity[0],0.0f);
+  twistMatrix[2] = glm::vec4(angularVelocity[1],-angularVelocity[0],0.0f,0.0f);
+  twistMatrix[3] = glm::vec4(glm::vec3(0.0f,0.0f,speed_),0.0f);
+
+
+  auto delta_R = float(dt)*(matrix_ * twistMatrix);
+  matrix_ += delta_R;
+  time+=dt;
+
 
   if(hasWeapon){
     lasers_.front()->fire();
@@ -154,36 +168,18 @@ void Enemy::setMovement(int mvt)
   movement = mvt;
 }
 
-void Enemy::addLaser()
+glm::vec3 Enemy::movePattern1(double dt)
 {
-  auto laser = std::make_shared<Laser>();
-  laser->owner =1;
-  this->addSubObject(laser);
-  lasers_.push_back(laser);
+  return glm::vec3(0.0f,0.0f,std::cos(time+dt));
 }
-
-void Enemy::moveSinus(double dt)
+glm::vec3 Enemy::movePattern2(double dt)
 {
-  matrix_ = glm::translate(matrix_, glm::vec3(0.0f, 0.0f,dt*speed_));
-  //matrix_ = glm::translate(matrix_, glm::vec3(1*std::sin(counter*10), 0.0f,10/fps_));
-  /*glm::vec4 p=glm::vec4(0.0f, -16.0f,-1024,0);
-  glm::vec4 t = glm::vec4(1*std::sin(counter*10), 0.0f,counter,0);
-  matrix_[3] = matrix_[0]*(p[0]+t[0])+matrix_[1]*(p[1]+t[1])+matrix_[2]*(p[2]+t[2]);*/
+  //return glm::vec3(0.0f,1.0f,0.0f);
+  return glm::vec3(0.0f,std::cos(time+dt),0.0f);
 }
-void Enemy::moveStraight(double dt)
+glm::vec3 Enemy::movePattern3(double dt)
 {
-  matrix_ = glm::translate(matrix_, glm::vec3(0.0f, 0.0f,dt*speed_));
-  /*glm::vec4 p=glm::vec4(0.0f, -16.0f,-1024,0);
-  glm::vec4 t=glm::vec4(0.0f, 0.0f,counter,0);
-  matrix_[3] = matrix_[0]*(p[0]+t[0])+matrix_[1]*(p[1]+t[1])+matrix_[2]*(p[2]+t[2]);*/
-}
-void Enemy::moveZigzag(double dt)
-{
-  matrix_ = glm::translate(matrix_, glm::vec3(0.0f, 0.0f,dt*speed_));
-  //matrix_ = glm::translate(matrix_, glm::vec3(-1*std::sin(counter*10), 0.0f,10/fps_));
-  /*glm::vec4 p=glm::vec4(0.0f, -16.0f,-1024,0);
-  glm::vec4 t=glm::vec4(1*std::sin(counter*10), 0.0f,counter,0);
-  matrix_[3] = matrix_[0]*(p[0]+t[0])+matrix_[1]*(p[1]+t[1])+matrix_[2]*(p[2]+t[2]);*/
+  return glm::vec3(std::cos(time+dt),0.0f,0.0f);
 }
 
 void Enemy::moveRight()
@@ -214,4 +210,12 @@ void Enemy::moveForward()
 void Enemy::moveBackward()
 {
   matrix_ = glm::translate(matrix_, glm::vec3(0.0f, 0.0f, -0.1f));
+}
+
+void Enemy::addLaser()
+{
+  auto laser = std::make_shared<Laser>();
+  laser->owner =1;
+  this->addSubObject(laser);
+  lasers_.push_back(laser);
 }

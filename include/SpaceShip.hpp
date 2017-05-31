@@ -29,12 +29,15 @@ class SpaceShip : public SceneObject
     	void privateInit();
 		void privateRender();
 		void privateUpdate(double dt);
+        void loadModel();
 
 	private:
 		float speed_;
     	float life_;
     	float armor_;
         std::vector< glm::vec3 > vertexArray_;
+        std::vector< unsigned int > indexArray_;
+        std::vector< glm::vec3 > normalArray_;
         std::vector<std::shared_ptr<Laser>> lasers_;
         std::vector<std::shared_ptr<Missile>> missiles_;
         Shader myShader;

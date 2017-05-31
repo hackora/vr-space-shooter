@@ -74,6 +74,7 @@ void display()
   gm->update(dt);
   timer.start();
   gm->render();
+  //PlaySound("/home/ghada/Desktop/game/Space-Shooter/nebula.mp3", NULL, SND_ASYNC|SND_LOOP);
 
   if(keyPressed[KEY_ID_W]==true)      gm->getSpaceship()->moveUp();
   if(keyPressed[KEY_ID_A]==true)      gm->getSpaceship()->moveLeft();

@@ -28,6 +28,7 @@ void EnemyManager::createEnemy()
 {
 	auto enemy = std::make_shared<Enemy>();
   	this->addSubObject(enemy);
+    enemy->init();
   	int random=rand()%3;
   	if(random==0){
   		enemy->addLaser();

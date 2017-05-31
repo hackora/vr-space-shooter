@@ -8,7 +8,6 @@
 
 Enemy::Enemy()
 {
-  privateInit();
 }
 
 Enemy::~Enemy()
@@ -30,10 +29,11 @@ void Enemy::privateInit(){
    glVertex3f(2.5f, 5.0f-16, -1024.0f);
    glVertex3f(-2.5f, 5.0f-16, -1024.0f);*/
    // Create vertex arrays
-  vertexArray_.push_back(glm::vec3(-2.5f, -2.5f, 0.0f));
+  /*vertexArray_.push_back(glm::vec3(-2.5f, -2.5f, 0.0f));
   vertexArray_.push_back(glm::vec3(2.5f, -2.5f, 0.0f));
   vertexArray_.push_back(glm::vec3(2.5f, 2.5f, 0.0f));
-  vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));
+  vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));*/
+  loadModel();
 
   matrix_ = glm::translate(matrix_, glm::vec3(0.0f, -16.0f,-500.0f));
 
@@ -218,4 +218,11 @@ void Enemy::addLaser()
   laser->owner =1;
   this->addSubObject(laser);
   lasers_.push_back(laser);
+}
+
+void Enemy::loadModel(){
+  vertexArray_.push_back(glm::vec3(-2.5f, -2.5f, 0.0f));
+  vertexArray_.push_back(glm::vec3(2.5f, -2.5f, 0.0f));
+  vertexArray_.push_back(glm::vec3(2.5f, 2.5f, 0.0f));
+  vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));
 }

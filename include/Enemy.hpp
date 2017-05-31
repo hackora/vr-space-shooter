@@ -30,6 +30,7 @@ class Enemy : public SceneObject
         void privateInit();
         void privateRender();
         void privateUpdate(double dt);
+        void loadModel();
 
     private:
         float speed_= 50.0f;
@@ -41,5 +42,7 @@ class Enemy : public SceneObject
         int movement;
         std::vector<std::shared_ptr<Laser>> lasers_;
         std::vector< glm::vec3 > vertexArray_;
+        std::vector< unsigned int > indexArray_;
+        std::vector< glm::vec3 > normalArray_;
 };
 

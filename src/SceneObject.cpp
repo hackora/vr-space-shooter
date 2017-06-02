@@ -5,6 +5,8 @@
 #include <GL/glew.h>
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "glm/gtc/matrix_inverse.hpp"
+
 
 // NB! Check matrix mult and scoped_ptr
 
@@ -49,6 +51,7 @@ void SceneObject::init()
 void SceneObject::addSubObject(std::shared_ptr<SceneObject> newchild)
 {
   children_.push_back(newchild);
+  newchild.get()->parent_ = this;
 }
 
 void SceneObject::removeSubObject(const std::shared_ptr<SceneObject> child)
@@ -61,3 +64,4 @@ void SceneObject::removeSubObject(const std::shared_ptr<SceneObject> child)
       break;
     }
 }
+

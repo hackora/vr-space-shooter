@@ -54,6 +54,10 @@ class SceneObject
   void setMatrix(const glm::mat4& m) { matrix_ = m; }
   glm::mat4& getMatrix() { return matrix_; }
 
+  std::vector<std::shared_ptr<SceneObject>> getChildren(){ return children_;} 
+
+  SceneObject* getParent(){ return parent_;}
+
  protected:
   // Override this method with your own render-implementation.
   virtual void privateRender() {}
@@ -73,4 +77,6 @@ class SceneObject
  private:
   // List of all SceneObjects that belong to the current object.
   std::vector<std::shared_ptr<SceneObject> > children_;
+
+  SceneObject* parent_ = nullptr;
 };

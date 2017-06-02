@@ -6,7 +6,8 @@
 //#include <GL/glu.h>
 #include "SceneObject.hpp"
 #include "Particle.hpp"
-#include "Laser.hpp"
+#include "Bullet.hpp"
+#include "Shader.hpp"
 
 class Enemy : public SceneObject
 {
@@ -15,7 +16,7 @@ class Enemy : public SceneObject
         ~Enemy();
         void setMovement(int mvt);
         bool hasWeapon=false;
-        void addLaser();
+        void addBullet();
         glm::vec3 movePattern1(double dt);
         glm::vec3 movePattern2(double dt);
         glm::vec3 movePattern3(double dt);
@@ -40,9 +41,11 @@ class Enemy : public SceneObject
         float time = 0.0f;
         GLuint texture_;
         int movement;
-        std::vector<std::shared_ptr<Laser>> lasers_;
+        std::vector<std::shared_ptr<Bullet>> bullets_;
         std::vector< glm::vec3 > vertexArray_;
         std::vector< unsigned int > indexArray_;
         std::vector< glm::vec3 > normalArray_;
+        Shader myShader;
+        GLuint textureID;
 };
 

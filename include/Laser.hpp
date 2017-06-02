@@ -12,7 +12,6 @@ class Laser : public Weapon
 		Laser();
 		~Laser();
 		void fire();
-		int owner = 0;
 
   	protected:
     	void privateInit();
@@ -20,7 +19,8 @@ class Laser : public Weapon
 		void privateUpdate(double dt);
 
 	private:
+    	float speed_= 50.0f;
     	float life_;
-    	bool fire_ = false;
+    	bool active_ = false;
     
 };

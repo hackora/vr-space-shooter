@@ -83,17 +83,22 @@ void display()
   if(keyPressed[KEY_ID_F]==true){
     auto missiles = gm->getSpaceship()->getMissile();
     if(missiles.size()>=1){
-      missiles.front()->fire();
-      missiles.front()->removeSubObject(gm->getSpaceship());
+      missiles.front()->fire(); //send spaceship position to fire
+      gm->addSubObject(missiles.front());
+      missiles.front()->setMatrix(gm->getSpaceship()->getMatrix());
       missiles.erase(missiles.begin());
     }
     keyPressed[KEY_ID_F]=false;
-    std::cout<<missiles.size();
   }
   if(keyPressed[KEY_ID_SPACE]==true){
     auto lasers = gm->getSpaceship()->getLaser();
-    if(!lasers.empty())
-      lasers.front()->fire();
+    if(!lasers.empty()){
+      lasers.front()->fire(); //send spaceship position to fire
+      gm->addSubObject(lasers.front());
+      lasers.front()->setMatrix(gm->getSpaceship()->getMatrix());
+      lasers.erase(lasers.begin());
+    }
+    keyPressed[KEY_ID_SPACE]==false;
   }
   //if(keyPressed[KEY_ID_C]==true)      gm->getSpaceship()->moveDown();
 

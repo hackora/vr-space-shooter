@@ -17,17 +17,20 @@ SkyBox::~SkyBox()
 void SkyBox::privateInit()
 {
 
-	skyboxShader.initShaders("/home/ghada/code/Space-Shooter/shaders/skybox");
+	skyboxShader.initShaders("/home/ghada/Desktop/game/Space-Shooter/shaders/skybox");
 	GLint texSampler;
 	texSampler = glGetUniformLocation(skyboxShader.getProg(), "skybox");
 	glUniform1i(texSampler, 0);
 
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/skybox/right.jpg");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/skybox/left.jpg");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/skybox/top.jpg");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/skybox/bottom.jpg");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/skybox/back.jpg");
-	faces_.push_back("/home/ghada/code/Space-Shooter/img/skybox/front.jpg");
+
+	//light blue skybox
+
+	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/right.png");
+	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/left.png");
+	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/top.png");
+	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/bot.png");
+	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/back.png");
+	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/front.png");
 
 	glActiveTexture(GL_TEXTURE0);
 	glGenTextures(1, &textureID);

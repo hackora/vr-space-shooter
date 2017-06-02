@@ -15,28 +15,34 @@ void Missile::privateInit()
 
 void Missile::privateRender()
 {
-	if(fire_){
+	if(active_){
 		glLineWidth(5.5);
 		glColor3f(0.0, 0.0, 1.0);
 		glBegin(GL_LINES);
-		glVertex3f(0.0, -15.5, -0.2);
-		glVertex3f(0.0, -15.5, -10);
-		glEnd();
+		glVertex3f(0.0, 0.0, 0.0);
+		glVertex3f(0.0, 0.0, -7.0);
+	 	glEnd();
 	}
 }
 
 void Missile::privateUpdate(double dt)
 {
-	if(fire_){
-		matrix_ = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f,-10*counter));
-		counter+=0.016;
-	}
-	if(counter>100){
-		fire_ = false;
-	}
+	if(active_){
+		
+		auto angularVelocity = glm::vec3(0.0f,0.0f,0.0f); //move laser in a straight line
+
+		glm::mat4 twistMatrix; //Screw Theory
+	    twistMatrix[0] = glm::vec4(0.0f,angularVelocity[2],-angularVelocity[1],0.0f);
+	    twistMatrix[1] = glm::vec4(-angularVelocity[2],0.0f,angularVelocity[0],0.0f);
+	    twistMatrix[2] = glm::vec4(angularVelocity[1],-angularVelocity[0],0.0f,0.0f);
+	    twistMatrix[3] = glm::vec4(glm::vec3(0.0f,0.0f,-speed_),0.0f);
+
+	    auto delta_R = float(dt)*(matrix_ * twistMatrix);
+	    matrix_ += delta_R;
+  	}
 }
 
 void Missile::fire()
 {
-	fire_ =true;
+	active_ =true;
 }

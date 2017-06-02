@@ -19,8 +19,8 @@ class Missile : public Weapon
 		void privateUpdate(double dt);
 
 	private:
+		float speed_= 50.0f;
     	float life_;
-    	float counter = 0.016;
-    	bool fire_ = false;
+    	bool active_ = false;
     
 };

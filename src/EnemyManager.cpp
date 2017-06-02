@@ -33,7 +33,6 @@ void EnemyManager::createEnemy()
   	int random=rand()%3;
   	//if(random==0){
   		enemy->addBullet();
-  		enemy->hasWeapon=true;
   	//}	
   	enemy->setMovement(random);
   	enemies.push_back(enemy);

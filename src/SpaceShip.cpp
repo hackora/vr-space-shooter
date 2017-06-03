@@ -54,8 +54,7 @@ void SpaceShip::privateInit()
   vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));*/
 
   loadModel();
-
-
+  setSurroundingSphere();
   auto laser = std::make_shared<Laser>();
   auto missile = std::make_shared<Missile>();
 
@@ -140,14 +139,36 @@ void SpaceShip::moveBackward()
   matrix_ = glm::translate(matrix_, glm::vec3(0.0f, 0.0f, 0.1f));
 }
 
-std::vector<std::shared_ptr<Missile>> SpaceShip::getMissile()
+std::vector<std::shared_ptr<Missile>> SpaceShip::getMissiles()
 {
   return missiles_;
 }
 
-std::vector<std::shared_ptr<Laser>> SpaceShip::getLaser()
+std::vector<std::shared_ptr<Laser>> SpaceShip::getLasers()
 {
   return lasers_;
+}
+
+void SpaceShip::setSurroundingSphere(){
+
+  float radius = 0.0;
+  for(int i=0;i<vertexArray_.size();i++){
+
+    float distance = std::sqrt(vertexArray_[i].x * vertexArray_[i].x +
+                              vertexArray_[i].y * vertexArray_[i].y+
+                              vertexArray_[i].z  * vertexArray_[i].z);
+
+    if (distance > radius)
+      radius = distance;
+  }
+
+  radius_ = radius;
+
+}
+
+float SpaceShip::getSurroundingSphere(){
+
+  return radius_;
 }
 
 void SpaceShip::loadModel(){

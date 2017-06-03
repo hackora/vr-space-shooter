@@ -81,7 +81,7 @@ void display()
   if(keyPressed[KEY_ID_D]==true)      gm->getSpaceship()->moveRight();
   if(keyPressed[KEY_ID_S]==true)      gm->getCam()->moveDown();
   if(keyPressed[KEY_ID_F]==true){
-    auto missiles = gm->getSpaceship()->getMissile();
+    auto missiles = gm->getSpaceship()->getMissiles();
     if(missiles.size()>=1){
       missiles.front()->fire(); //send spaceship position to fire
       gm->addSubObject(missiles.front());
@@ -91,7 +91,7 @@ void display()
     keyPressed[KEY_ID_F]=false;
   }
   if(keyPressed[KEY_ID_SPACE]==true){
-    auto lasers = gm->getSpaceship()->getLaser();
+    auto lasers = gm->getSpaceship()->getLasers();
     if(!lasers.empty()){
       lasers.front()->fire(); //send spaceship position to fire
       gm->addSubObject(lasers.front());

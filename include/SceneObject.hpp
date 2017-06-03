@@ -58,6 +58,8 @@ class SceneObject
 
   SceneObject* getParent(){ return parent_;}
 
+  virtual float getSurroundingSphere() {}
+
  protected:
   // Override this method with your own render-implementation.
   virtual void privateRender() {}
@@ -79,4 +81,6 @@ class SceneObject
   std::vector<std::shared_ptr<SceneObject> > children_;
 
   SceneObject* parent_ = nullptr;
+
+  float surroundingSphere = 0.0f;
 };

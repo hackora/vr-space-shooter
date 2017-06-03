@@ -15,7 +15,6 @@ class Enemy : public SceneObject
         Enemy();
         ~Enemy();
         void setMovement(int mvt);
-        bool hasWeapon=false;
         void addBullet();
         glm::vec3 movePattern1(double dt);
         glm::vec3 movePattern2(double dt);
@@ -26,6 +25,9 @@ class Enemy : public SceneObject
         void moveDown();
         void moveBackward();
         void moveForward();
+        float getSurroundingSphere();
+        void setSurroundingSphere();
+        std::vector<std::shared_ptr<Bullet>> getBullets(){return bullets_;}
 
     protected:
         void privateInit();
@@ -37,6 +39,8 @@ class Enemy : public SceneObject
         float speed_= 50.0f;
         float life_;
         float armor_;
+        float radius_ = 0.0 ;
+        bool hasWeapon=false;
         int   list_id;
         float time = 0.0f;
         GLuint texture_;

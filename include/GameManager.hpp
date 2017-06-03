@@ -20,11 +20,10 @@ class GameManager : public SceneObject
 	public:
 		GameManager();
 		~GameManager();
-
-    std::shared_ptr<Camera> getCam();
-    std::shared_ptr<SpaceShip> getSpaceship();
-    std::shared_ptr<EnemyManager>getEnemyManager();
-    int enemyFreq=1;
+        std::shared_ptr<Camera> getCam();
+        std::shared_ptr<SpaceShip> getSpaceship();
+        std::shared_ptr<EnemyManager>getEnemyManager();
+        int enemyFreq=1;
 
   protected:
     virtual void privateInit();
@@ -38,5 +37,12 @@ class GameManager : public SceneObject
     std::shared_ptr<SpaceShip> spaceship_;
     std::shared_ptr<ParticleEngine> pe_;
     std::shared_ptr<SkyBox> skybox_;
+
+    float spaceshipRadius_;
+    float enemyRadius_;
+    float missileRadius_;
+    float laserRadius_;
+    float bulletRadius_;
+
 
 };

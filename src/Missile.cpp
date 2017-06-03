@@ -11,6 +11,9 @@ Missile::~Missile()
 
 void Missile::privateInit()
 {
+	vertexArray_.push_back(glm::vec3(0.0, 0.0, 0.0));
+	vertexArray_.push_back(glm::vec3(0.0, 0.0, -7.0));
+	setSurroundingSphere();
 }
 
 void Missile::privateRender()
@@ -45,4 +48,27 @@ void Missile::privateUpdate(double dt)
 void Missile::fire()
 {
 	active_ =true;
+}
+
+void Missile::setSurroundingSphere(){
+
+  float radius = 0.0;
+  glm::vec3 pos = matrix_[0];
+  for(int i=0;i<vertexArray_.size();i++){
+
+    float distance = std::sqrt(vertexArray_[i].x * vertexArray_[i].x +
+                              vertexArray_[i].y * vertexArray_[i].y+
+                              vertexArray_[i].z  * vertexArray_[i].z);
+
+    if (distance > radius)
+      radius = distance;
+  }
+
+  radius_ = radius;
+
+}
+
+float Missile::getSurroundingSphere(){
+
+	return radius_;
 }

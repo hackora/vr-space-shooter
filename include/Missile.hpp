@@ -12,6 +12,8 @@ class Missile : public Weapon
 		Missile();
 		~Missile();
 		void fire();
+		float getSurroundingSphere();
+		void setSurroundingSphere();
 
   	protected:
     	void privateInit();
@@ -22,5 +24,7 @@ class Missile : public Weapon
 		float speed_= 50.0f;
     	float life_;
     	bool active_ = false;
+    	float radius_;
+    	std::vector< glm::vec3 > vertexArray_;
     
 };

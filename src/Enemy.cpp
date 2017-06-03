@@ -40,7 +40,7 @@ void Enemy::privateInit(){
   vertexArray_.push_back(glm::vec3(2.5f, 2.5f, 0.0f));
   vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));*/
   loadModel();
-
+  setSurroundingSphere();
   matrix_ = glm::rotate(matrix_,3.1415f,glm::vec3(0.0f, 1.0f,0.0f)); //rotate model to face positive Z
 
    //glLightfv(GL_LIGHT0, GL_SPECULAR, light_spec);
@@ -249,6 +249,30 @@ void Enemy::addBullet()
   hasWeapon = true;
 }
 
+void Enemy::setSurroundingSphere(){
+
+  float radius = 0.0;
+  for(int i=0;i<vertexArray_.size();i++){
+
+    float distance = std::sqrt(vertexArray_[i].x * vertexArray_[i].x +
+                              vertexArray_[i].y * vertexArray_[i].y+
+                              vertexArray_[i].z  * vertexArray_[i].z);
+
+    if (distance > radius)
+      radius = distance;
+  }
+
+radius_ = radius;
+
+}
+
+float Enemy::getSurroundingSphere(){
+
+  return radius_;
+}
+
+
+
 void Enemy::loadModel(){
   /*vertexArray_.push_back(glm::vec3(-2.5f, -2.5f, 0.0f));
   vertexArray_.push_back(glm::vec3(2.5f, -2.5f, 0.0f));
@@ -257,7 +281,7 @@ void Enemy::loadModel(){
 
   //vertices
 
-  vertexArray_.push_back(glm::vec3(0.0197,0.5441,5.1770));
+vertexArray_.push_back(glm::vec3(0.0197,0.5441,5.1770));
 vertexArray_.push_back(glm::vec3(0.0337,0.3851,5.5795));
 vertexArray_.push_back(glm::vec3(-0.6315,0.3851,5.6027));
 vertexArray_.push_back(glm::vec3(-0.4521,0.5441,5.1935));

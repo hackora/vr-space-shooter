@@ -81,3 +81,4 @@ std::shared_ptr<EnemyManager> GameManager::getEnemyManager()
 {
   return em_;
 }
+

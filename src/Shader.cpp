@@ -1,10 +1,11 @@
-#include "Shader.hpp"
-//#include <windows.h>
+#include "../include/Shader.hpp"
+#include <windows.h>
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
+#include <io.h>
 #include <fcntl.h>
-#include <unistd.h>  // close and lseek was not declared (linux)
+#include <fstream>
 
 using namespace std;
 
@@ -151,51 +152,43 @@ bool Shader::initShaders(char *fileName)
 
 int Shader::shaderSize(char *fileName, ShaderType shaderType)
 {
-  // Returns the size in bytes of the shader fileName.
-  // If an error occurred, it returns -1.
-  //
-  // File name convention:
-  //
-  // <fileName>.vert
-  // <fileName>.frag
-  //
-  int fd;
-  char name[100];
-  int count = -1;
+	// Returns the size in bytes of the shader fileName.
+	// If an error occurred, it returns -1.
+	//
+	// File name convention:
+	//
+	// <fileName>.vert
+	// <fileName>.frag
+	//
+	int fd;
+	char name[150];
+	int count = -1;
 
-  strcpy(name, fileName);
+	strcpy(name, fileName);
 
-  switch(shaderType)
-  {
-    case VertexShader:
-      strcat(name, ".vert");
-      break;
-    case FragmentShader:
-      strcat(name, ".frag");
-      break;
-    default:
-      cout << "ERROR: unknown shader file type " << endl;
-      exit(1);
-      break;
-  }
+	switch (shaderType)
+	{
+	case VertexShader:
+		strcat(name, ".vert");
+		break;
+	case FragmentShader:
+		strcat(name, ".frag");
+		break;
+	default:
+		cout << "ERROR: unknown shader file type " << endl;
+		exit(1);
+		break;
+	}
 
-  // Open the file, seek to the end to find its length (WIN32)
-  #ifdef WIN32 /*[*/
-    fd = _open(name, _O_RDONLY);
-    if (fd != -1)
-    {
-        count = _lseek(fd, 0, SEEK_END) + 1;
-        _close(fd);
-    }
-#else /*][*/
-    fd = open(name, O_RDONLY);
-    if (fd != -1)
-    {
-        count = lseek(fd, 0, SEEK_END) + 1;
-        close(fd);
-    }
-#endif /*]*/
-  return count;
+	std::ifstream ifStream(name);
+	std::string sString;
+
+	if (ifStream.is_open()) {
+		sString = std::string((std::istreambuf_iterator<char>(ifStream)),
+			std::istreambuf_iterator<char>());
+	}
+	count = sString.size();
+	return count;
 }
 
 int Shader::readShader(char *fileName, ShaderType shaderType, char *shaderText, int size)
@@ -205,7 +198,7 @@ int Shader::readShader(char *fileName, ShaderType shaderType, char *shaderText, 
   // The parameter size is an upper limit of the amount of bytes to read.
   // It is ok for it to be too big.
   FILE *fh;
-  char name[100];
+  char name[150];
   int count;
 
   strcpy(name, fileName);

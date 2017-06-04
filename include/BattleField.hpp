@@ -7,7 +7,7 @@
 //#include <GL/glu.h>
 
 #include "SceneObject.hpp"
-#include "glm/glm.hpp"
+#include "../glm/glm.hpp"
 #include "Shader.hpp"
 
 

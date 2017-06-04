@@ -8,7 +8,7 @@
 #include "SceneObject.hpp"
 #include "Shader.hpp"
 #include "Camera.hpp"
-#include "SOIL.h"
+#include "../soil/src/SOIL.h"
 
 #include <vector>
 

@@ -22,8 +22,10 @@ class SpaceShip : public SceneObject
     	void moveDown();
     	void moveBackward();
     	void moveForward();
-        std::vector<std::shared_ptr<Missile>> getMissiles();
-        std::vector<std::shared_ptr<Laser>> getLasers();
+        int getMissiles();
+        int getLasers();
+		void fireMissile();
+		void fireLaser();
         float getSurroundingSphere();
         void setSurroundingSphere();
         void collided(bool withTerrain);
@@ -43,8 +45,8 @@ class SpaceShip : public SceneObject
         std::vector< glm::vec3 > vertexArray_;
         std::vector< unsigned int > indexArray_;
         std::vector< glm::vec3 > normalArray_;
-        std::vector<std::shared_ptr<Laser>> lasers_;
-        std::vector<std::shared_ptr<Missile>> missiles_;
+        int lasers_;
+        int missiles_;
         Shader myShader;
         GLuint textureID;
 

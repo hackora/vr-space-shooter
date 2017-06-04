@@ -35,17 +35,19 @@ class GameManager : public SceneObject
         std::shared_ptr<Camera> getCam();
         std::shared_ptr<SpaceShip> getSpaceship();
         std::shared_ptr<EnemyManager>getEnemyManager();
+		void fireMissile(glm::mat4 mat);
+		void fireLaser(glm::mat4 mat);
         int enemyFreq=1;
 
   protected:
     virtual void privateInit();
 	virtual void privateRender();
 	virtual void privateUpdate(double dt);
-    std::vector<std::shared_ptr<SceneObject>> getDynamicObjects();
-    std::vector<CollisionObject> detectCollisions(std::vector<std::shared_ptr<SceneObject>>);
+    std::vector<SceneObject*> getDynamicObjects();
+    std::vector<CollisionObject> detectCollisions(std::vector<SceneObject*>);
     void resolveCollisions(std::vector<CollisionObject>);
     bool detectCollision(SceneObject* obj1, SceneObject* obj2);
-    bool detectCollision(SceneObject* obj);
+    //bool detectCollision(SceneObject* obj);
     void removeDead();
 
 	private:

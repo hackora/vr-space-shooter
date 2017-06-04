@@ -65,10 +65,9 @@ void GameManager::privateUpdate(double dt)
   // to the game manager. Therefore, we set the game manager matrix equal to the camera matrix.
   this->matrix_ = cam_->getMatrix();
 
-
-  auto dynamicObjects = getDynamicObjects();
-  auto collisions = detectCollisions(dynamicObjects);
-  resolveCollisions(collisions);
+  auto dyn = getDynamicObjects();
+  auto col = detectCollisions(dyn);
+  resolveCollisions(col);
   removeDead();
 }
 
@@ -87,54 +86,51 @@ std::shared_ptr<EnemyManager> GameManager::getEnemyManager()
   return em_;
 }
 
-std::vector<std::shared_ptr<SceneObject>> GameManager::getDynamicObjects(){
+void GameManager::fireMissile(glm::mat4 mat)
+{
+	auto missile = std::make_shared<Missile>();
+	missile->init();
+	missile->setMatrix(mat);
+	this->addSubObject(missile);
+}
 
-  std::vector<std::shared_ptr<SceneObject>> dynamicObjects;
+void GameManager::fireLaser(glm::mat4 mat)
+{
+	auto laser = std::make_shared<Laser>();
+	laser->init();
+	laser->setMatrix(mat);
+	this->addSubObject(laser);
+}
 
-  dynamicObjects.push_back(spaceship_);
-  auto missiles = spaceship_->getMissiles();
-  for(auto it=missiles.begin(); it!=missiles.end();it++){
-    if(it->get()->isActive()){
-      dynamicObjects.push_back(*it);
-      missiles_.push_back(*it);
-    }
+std::vector<SceneObject*> GameManager::getDynamicObjects(){
+
+  std::vector<SceneObject*> dynamicObjects;
+  std::vector<std::shared_ptr<SceneObject>> children = this->getChildren();
+
+  for(auto it=children.begin(); it!=children.end();it++){
+	  if (it->get()->isDynamic()) {
+		  dynamicObjects.push_back(it->get());
+	  }
   }
-  auto lasers = spaceship_->getLasers();
-  for(auto it=lasers.begin(); it!=lasers.end();it++){
-    if(it->get()->isActive()){
-      dynamicObjects.push_back(*it);
-      lasers_.push_back(*it);
-    }
-  }
+
   auto enemies = em_->getEnemies();
   for(auto it=enemies.begin(); it!=enemies.end();it++){
-    dynamicObjects.push_back(*it);
-    /*auto bullets = (*it)->getBullets();
-    for(auto it1=bullets.begin(); it1!=bullets.end();it1++){
-      if(it1->get()->isActive()){
-        dynamicObjects.push_back(*it1);
-        bullets.push_back(*it1);
-      }
-    }*/
+    dynamicObjects.push_back(it->get());
   }
-
   return dynamicObjects;
-
 }
 
 
-std::vector<CollisionObject> GameManager::detectCollisions(std::vector<std::shared_ptr<SceneObject>> dynamicObjects){
+std::vector<CollisionObject> GameManager::detectCollisions(std::vector<SceneObject*> dynamicObjects){
 
   std::vector<CollisionObject> collisions;
-
+  int i = 1;
   for(auto it1=dynamicObjects.begin(); it1!=dynamicObjects.end();it1++){
 
     for(auto it2=it1+1; it2!=dynamicObjects.end();it2++){
 
-      if (detectCollision(it1->get(),it2->get())){
-
-        CollisionObject c = {it1->get(),it1->get()}; //collision with other dynamic scene object
-        collisions.push_back(c);
+      if (detectCollision(*it1,*it2)){
+        collisions.push_back({ *it1,*it2 });
       }
     }
   }
@@ -153,14 +149,12 @@ std::vector<CollisionObject> GameManager::detectCollisions(std::vector<std::shar
 
 bool GameManager::detectCollision(SceneObject* obj1, SceneObject* obj2){
 
-    auto pos1 = obj1->getMatrix()[3];
-    auto pos2 = obj2->getMatrix()[3];
+    auto pos1 = obj1->getWorldMatrix()[3];
+    auto pos2 = obj2->getWorldMatrix()[3];
     float r = obj1->getSurroundingSphere() + obj2->getSurroundingSphere();
     float d = std::sqrt((pos2[0]-pos1[0]) * (pos2[0]-pos1[0]) +
                       (pos2[1]-pos1[1]) * (pos2[1]-pos1[1])+
                       (pos2[2]-pos1[2])  * (pos2[2]-pos1[2]));
-
-    
     if(d<r)
       return true;
     else 
@@ -168,27 +162,27 @@ bool GameManager::detectCollision(SceneObject* obj1, SceneObject* obj2){
 
 }
 
-bool GameManager::detectCollision(SceneObject* obj){
+/*bool GameManager::detectCollision(SceneObject* obj){
 
-  /*auto pos = obj.getMatrix()[3];
+  auto pos = obj.getMatrix()[3];
 
   if (obj.y <= bf_->getHeight(obj.x,obj.z))
     return true;
   else 
-    return false;*/
-}
+    return false;
+}*/
 
 void GameManager::resolveCollisions(std::vector<CollisionObject> c){
-
+	
   while(!c.empty()){
 
     auto it=c.begin();
-    c.erase(it);
     auto obj1 = it->obj1;
     auto obj2 = it->obj2;
-
-    if(obj1 == obj2) //collision with Terrain
-      obj1->collided(true);
+	c.erase(it);
+	if (obj1 == obj2) { //collision with Terrain
+		obj1->collided(true);
+	}
 
     else{ //collision with other dynamic obj
       obj1->collided(false);
@@ -201,15 +195,13 @@ void GameManager::removeDead(){
 
   em_->removeDead(); //remove dead enemies
 
-  for(auto it=missiles_.begin(); it!=missiles_.end();it++){
-    if(it->get()->isDead()){
-      it->reset();
-    }
+  std::vector<std::shared_ptr<SceneObject>> children = this->getChildren();
+
+  for (auto it = children.begin(); it != children.end();it++) {
+	  if ((*it)->isDead() && (*it)->isDynamic()) {
+		  this->removeSubObject(*it);
+	  }
   }
 
-  for(auto it=lasers_.begin(); it!=lasers_.end();it++){
-    if(it->get()->isDead()){
-      it->reset();
-    }
-  }
+  
 }

@@ -3,9 +3,9 @@
 //#include <windows.h>
 //#include <GL/gl.h> //glew has it
 #include <GL/glew.h>
-#include "glm/glm.hpp"
-#include "glm/gtc/type_ptr.hpp"
-#include "glm/gtc/matrix_inverse.hpp"
+#include "../glm/glm.hpp"
+#include "../glm/gtc/type_ptr.hpp"
+#include "../glm/gtc/matrix_inverse.hpp"
 
 
 // NB! Check matrix mult and scoped_ptr
@@ -63,5 +63,15 @@ void SceneObject::removeSubObject(const std::shared_ptr<SceneObject> child)
       children_.erase(it);
       break;
     }
+}
+
+glm::mat4 SceneObject::getWorldMatrix()
+{
+	if(this->parent_== nullptr)
+		return matrix_;
+	else
+	{
+		return parent_->getWorldMatrix()*matrix_;
+	}
 }
 

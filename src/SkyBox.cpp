@@ -1,8 +1,8 @@
 #include "../include/SkyBox.hpp"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "../glm/glm.hpp"
+#include "../glm/gtc/matrix_transform.hpp"
+#include "../glm/gtc/type_ptr.hpp"
 
 SkyBox::SkyBox(std::shared_ptr<Camera> camera)
 {
@@ -16,8 +16,7 @@ SkyBox::~SkyBox()
 
 void SkyBox::privateInit()
 {
-
-	skyboxShader.initShaders("/home/ghada/Desktop/game/Space-Shooter/shaders/skybox");
+	skyboxShader.initShaders("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/shaders/skybox");
 	GLint texSampler;
 	texSampler = glGetUniformLocation(skyboxShader.getProg(), "skybox");
 	glUniform1i(texSampler, 0);
@@ -25,12 +24,12 @@ void SkyBox::privateInit()
 
 	//light blue skybox
 
-	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/right.png");
-	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/left.png");
-	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/top.png");
-	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/bot.png");
-	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/back.png");
-	faces_.push_back("/home/ghada/Desktop/game/Space-Shooter/img/skybox/sky/lightblue/front.png");
+	faces_.push_back("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/img/skybox/sky/lightblue/right.png");
+	faces_.push_back("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/img/skybox/sky/lightblue/left.png");
+	faces_.push_back("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/img/skybox/sky/lightblue/top.png");
+	faces_.push_back("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/img/skybox/sky/lightblue/bot.png");
+	faces_.push_back("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/img/skybox/sky/lightblue/back.png");
+	faces_.push_back("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/img/skybox/sky/lightblue/front.png");
 
 	glActiveTexture(GL_TEXTURE0);
 	glGenTextures(1, &textureID);

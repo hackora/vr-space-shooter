@@ -16,7 +16,6 @@ class Missile : public Weapon
 		float getSurroundingSphere();
 		void setSurroundingSphere();
 		void collided(bool  withTerrain){alive_ = false;}
-		bool isActive(){return active_;}
 
   	protected:
     	void privateInit();
@@ -24,6 +23,7 @@ class Missile : public Weapon
 		void privateUpdate(double dt);
 
 	private:
+		float cooldown = 0;
 		float speed_= 50.0f;
     	float life_;
     	float radius_;

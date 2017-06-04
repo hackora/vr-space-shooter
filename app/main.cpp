@@ -1,5 +1,5 @@
-#include <pthread.h>
-//#include <windows.h>
+//#include <pthread.h>
+#include <windows.h>
 #include <GL/glew.h>
 //#include <GL/gl.h>
 #include <GL/freeglut.h>
@@ -10,7 +10,7 @@
 //#include "../include/FpsCounter.hpp"
 #include "../include/Clock.hpp"
 #include "../include/GameManager.hpp"
-#include "glm/glm.hpp"
+#include "../glm/glm.hpp"
 
 #include <iostream>
 #include <memory>
@@ -27,9 +27,9 @@ int mousePosX, mousePosY;
 float moveX, moveY;
 static bool _initialized;
 
-//Getting around Segmentation fault (core dumped) when launching application in Ubuntu 
+/*//Getting around Segmentation fault (core dumped) when launching application in Ubuntu 
 void* simpleFunc(void*) { return NULL; } 
-void forcePThreadLink() { pthread_t t1; pthread_create(&t1, NULL, &simpleFunc, NULL); }
+void forcePThreadLink() { pthread_t t1; pthread_create(&t1, NULL, &simpleFunc, NULL); }*/
 
 void init()
 {
@@ -74,35 +74,29 @@ void display()
   gm->update(dt);
   timer.start();
   gm->render();
-  //PlaySound("/home/ghada/Desktop/game/Space-Shooter/nebula.mp3", NULL, SND_ASYNC|SND_LOOP);
+  //PlaySound("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/nebula.mp3", NULL, SND_ASYNC|SND_LOOP);
 
   if(keyPressed[KEY_ID_W]==true)      gm->getSpaceship()->moveUp();
   if(keyPressed[KEY_ID_A]==true)      gm->getSpaceship()->moveLeft();
   if(keyPressed[KEY_ID_D]==true)      gm->getSpaceship()->moveRight();
-  if(keyPressed[KEY_ID_S]==true)      gm->getCam()->moveDown();
+  if(keyPressed[KEY_ID_S]==true)      gm->getSpaceship()->moveDown();
   if(keyPressed[KEY_ID_F]==true){
-    auto missiles = gm->getSpaceship()->getMissiles();
-    if(missiles.size()>=1){
-      missiles.front()->fire(); //send spaceship position to fire
-      gm->addSubObject(missiles.front());
-      missiles.front()->setMatrix(gm->getSpaceship()->getMatrix());
-      missiles.erase(missiles.begin());
+  if(gm->getSpaceship()->getMissiles() > 0 || gm->getSpaceship()->getMissiles() == -1){
+	  gm->fireMissile(gm->getSpaceship()->getMatrix());
+	  gm->getSpaceship()->fireMissile();
     }
     keyPressed[KEY_ID_F]=false;
   }
   if(keyPressed[KEY_ID_SPACE]==true){
-    auto lasers = gm->getSpaceship()->getLasers();
-    if(!lasers.empty()){
-      lasers.front()->fire(); //send spaceship position to fire
-      gm->addSubObject(lasers.front());
-      lasers.front()->setMatrix(gm->getSpaceship()->getMatrix());
-      lasers.erase(lasers.begin());
+    if(gm->getSpaceship()->getLasers() > 0 || gm->getSpaceship()->getLasers() == -1){
+      gm->fireLaser(gm->getSpaceship()->getMatrix());
+	  gm->getSpaceship()->fireLaser();
     }
-    keyPressed[KEY_ID_SPACE]==false;
+    keyPressed[KEY_ID_SPACE]=false;
   }
   //if(keyPressed[KEY_ID_C]==true)      gm->getSpaceship()->moveDown();
 
-  if(gm->enemyFreq % 3000 ==0)
+  if(gm->enemyFreq % 90 ==0)
     gm->getEnemyManager()->createEnemy();
 
   gm->enemyFreq++;
@@ -237,27 +231,6 @@ static void NextClearColor(void)
              break;
     }
 }
-
-//
-// Movement variables
-//
-float fXDiff = 206;
-float fYDiff = 16;
-float fZDiff = 10;
-int xLastIncr = 0;
-int yLastIncr = 0;
-float fXInertia = -0.5;
-float fYInertia = 0;
-float fXInertiaOld;
-float fYInertiaOld;
-float fScale = 1.0;
-float ftime = 0;
-int xLast = -1;
-int yLast = -1;
-char bmModifiers;
-int Rotate = 1;
-
-bool polyModeFill = true;
 
 //
 // Rotation defines

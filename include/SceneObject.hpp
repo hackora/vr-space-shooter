@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "glm/glm.hpp"
+#include "../glm/glm.hpp"
 
 #include <memory>
 
@@ -39,6 +39,9 @@ class SceneObject
   SceneObject();
   virtual ~SceneObject();
 
+  //Returns the transformation matrix from model frame to world frame recursively with parents
+  glm::mat4 getWorldMatrix();
+
   // This method causes all children to be rendered, don't override this one!
   void render();
   // This method causes all children to be updated, don't override this one!
@@ -52,17 +55,21 @@ class SceneObject
   //  std::vector<ScopedPtr<SceneObject> >& getSubObjects();
 
   void setMatrix(const glm::mat4& m) { matrix_ = m; }
+
+  //Returns transformation matrix between object and parent
   glm::mat4& getMatrix() { return matrix_; }
 
   std::vector<std::shared_ptr<SceneObject>> getChildren(){ return children_;} 
 
   SceneObject* getParent(){ return parent_;}
 
-  virtual float getSurroundingSphere() {}
+  virtual float getSurroundingSphere() { return surroundingSphere; }
   virtual void collided(bool withTerrain){}
   virtual void terminate(){}
 
   bool isDead(){ return !alive_;}
+
+  bool isDynamic() { return dynamic_; }
 
  protected:
   // Override this method with your own render-implementation.
@@ -74,6 +81,7 @@ class SceneObject
 
   bool alive_ = false;
 
+  bool dynamic_ = false;
   // This member contains the time since last frame. It is set
   // before privateUpdate is called.
   //double dt_;
@@ -84,7 +92,8 @@ class SceneObject
 
  private:
   // List of all SceneObjects that belong to the current object.
-  std::vector<std::shared_ptr<SceneObject> > children_;
+  std::vector<std::shared_ptr<SceneObject>> children_;
+
 
   SceneObject* parent_ = nullptr;
 

@@ -10,7 +10,6 @@ Particle::~Particle()
 
 void Particle::privateInit()
 {
-
 }
 
 void Particle::privateRender()

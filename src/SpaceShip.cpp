@@ -1,9 +1,10 @@
+#include <GL/glew.h>
 #include "../include/SpaceShip.hpp"
-#include "../include/ShaderTest.h"
-#include "SkyBox.hpp"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include <GL/glut.h> 
+//#include "../include/ShaderTest.h"
+#include "../include/SkyBox.hpp"
+#include "../glm/glm.hpp"
+#include "../glm/gtc/matrix_transform.hpp"
+//#include <GL/glut.h> 
 
 #include <iostream>
 
@@ -36,16 +37,16 @@ SpaceShip::~SpaceShip()
 
 void SpaceShip::privateInit()
 {
-  //myShader.initShaders("/home/ghada/Desktop/game/Space-Shooter/shaders/brick");
-  //auto prog =myShader.getProg();
+  myShader.initShaders("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/shaders/reflection");
+  auto prog =myShader.getProg();
 
     /*glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);*/
     
-  //GLint texSampler;
-  //texSampler = glGetUniformLocation(myShader.getProg(), "phong");
-  //glUniform1i(texSampler, textureID);
+  GLint texSampler;
+  texSampler = glGetUniformLocation(myShader.getProg(), "reflection");
+  glUniform1i(texSampler, textureID);
 
   // Create vertex arrays
   /*vertexArray_.push_back(glm::vec3(-2.5f, -2.5f, 0.0f));
@@ -54,16 +55,15 @@ void SpaceShip::privateInit()
   vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));*/
 
   life_ = 3;
+  dynamic_ = true;
   alive_ = true;
   health_= 100.0;
 
   loadModel();
   setSurroundingSphere();
-  auto laser = std::make_shared<Laser>();
-  auto missile = std::make_shared<Missile>();
 
-  lasers_.push_back(laser);
-  missiles_.push_back(missile);
+  lasers_=-1;
+  missiles_=10;
 
   //for(unsigned int i=0;i<lasers_.size();i++)
     //this->addSubObject(lasers_[i]);
@@ -80,13 +80,13 @@ void SpaceShip::privateRender()
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 
-    GLchar *VertexShaderSource, *FragmentShaderSource;
-    readShaderSource("/home/ghada/Desktop/game/Space-Shooter/shaders/phong", &VertexShaderSource, &FragmentShaderSource);
+    /*GLchar *VertexShaderSource, *FragmentShaderSource;
+    readShaderSource("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/shaders/phong", &VertexShaderSource, &FragmentShaderSource);
     auto success = installShaders(VertexShaderSource, FragmentShaderSource);
-    success *= initPhongShader();
+    success *= initPhongShader();*/
     
     //glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-    //myShader.enable();
+    myShader.enable();
 
     // Render the spaceship
     glEnableClientState(GL_VERTEX_ARRAY); // enable vertex arrays
@@ -100,7 +100,7 @@ void SpaceShip::privateRender()
 
   
 
-    //myShader.disable();
+    myShader.disable();
 
 }
 
@@ -145,14 +145,30 @@ void SpaceShip::moveBackward()
   matrix_ = glm::translate(matrix_, glm::vec3(0.0f, 0.0f, 0.1f));
 }
 
-std::vector<std::shared_ptr<Missile>> SpaceShip::getMissiles()
+int SpaceShip::getMissiles()
 {
   return missiles_;
 }
 
-std::vector<std::shared_ptr<Laser>> SpaceShip::getLasers()
+int SpaceShip::getLasers()
 {
   return lasers_;
+}
+
+void SpaceShip::fireMissile()
+{
+	if (missiles_ > 0)
+	{
+		missiles_--;
+	}
+}
+
+void SpaceShip::fireLaser()
+{
+	if (lasers_ > 0)
+	{
+		lasers_--;
+	}
 }
 
 void SpaceShip::setSurroundingSphere(){
@@ -193,6 +209,62 @@ void SpaceShip::collided(bool withTerrain){
 }
 
 void SpaceShip::loadModel(){
+
+	//Cube for testing purposes 
+	/*vertexArray_.push_back(glm::vec3(1.0, 0.9999999403953552, -1.0));
+	vertexArray_.push_back(glm::vec3(1.0, -1.0, -1.0));
+	vertexArray_.push_back(glm::vec3(-1.0000001192092896, -0.9999998211860657, -1.0));
+	vertexArray_.push_back(glm::vec3(-0.9999996423721313, 1.0000003576278687, -1.0));
+	vertexArray_.push_back(glm::vec3(1.0000004768371582, 0.999999463558197, 1.0));
+	vertexArray_.push_back(glm::vec3(0.9999993443489075, -1.0000005960464478, 1.0));
+	vertexArray_.push_back(glm::vec3(-1.0000003576278687, -0.9999996423721313, 1.0));
+	vertexArray_.push_back(glm::vec3(-0.9999999403953552, 1.0, 1.0));
+
+	indexArray_.push_back(1);
+	indexArray_.push_back(3);
+	indexArray_.push_back(0);
+	indexArray_.push_back(7);
+	indexArray_.push_back(5);
+	indexArray_.push_back(4);
+	indexArray_.push_back(4);
+	indexArray_.push_back(1);
+	indexArray_.push_back(0);
+	indexArray_.push_back(5);
+	indexArray_.push_back(2);
+	indexArray_.push_back(1);
+	indexArray_.push_back(2);
+	indexArray_.push_back(7);
+	indexArray_.push_back(3);
+	indexArray_.push_back(0);
+	indexArray_.push_back(7);
+	indexArray_.push_back(4);
+	indexArray_.push_back(1);
+	indexArray_.push_back(2);
+	indexArray_.push_back(3);
+	indexArray_.push_back(7);
+	indexArray_.push_back(6);
+	indexArray_.push_back(5);
+	indexArray_.push_back(4);
+	indexArray_.push_back(5);
+	indexArray_.push_back(1);
+	indexArray_.push_back(5);
+	indexArray_.push_back(6);
+	indexArray_.push_back(2);
+	indexArray_.push_back(2);
+	indexArray_.push_back(6);
+	indexArray_.push_back(7);
+	indexArray_.push_back(0);
+	indexArray_.push_back(3);
+	indexArray_.push_back(7);
+
+	normalArray_.push_back(glm::vec3(0.5773491859436035, 0.5773491859436035, -0.5773491859436035));
+	normalArray_.push_back(glm::vec3(0.5773491859436035, -0.5773491859436035, -0.5773491859436035));
+	normalArray_.push_back(glm::vec3(-0.5773491859436035, -0.5773491859436035, -0.5773491859436035));
+	normalArray_.push_back(glm::vec3(-0.5773491859436035, 0.5773491859436035, -0.5773491859436035));
+	normalArray_.push_back(glm::vec3(0.5773491859436035, 0.5773491859436035, 0.5773491859436035));
+	normalArray_.push_back(glm::vec3(0.5773491859436035, -0.5773491859436035, 0.5773491859436035));
+	normalArray_.push_back(glm::vec3(-0.5773491859436035, -0.5773491859436035, 0.5773491859436035));
+	normalArray_.push_back(glm::vec3(-0.5773491859436035, 0.5773491859436035, 0.5773491859436035));*/
 
 //vertices
 vertexArray_.push_back(glm::vec3(-0.4539,0.8845,-0.1924));
@@ -35962,6 +36034,6 @@ normalArray_.push_back(glm::vec3(0.1675,0.9532,-0.2517));
 normalArray_.push_back(glm::vec3(0.9857,-0.1666,0.0234));
 normalArray_.push_back(glm::vec3(0.1623,0.9559,-0.2445));
 normalArray_.push_back(glm::vec3(0.9882,-0.1528,0.0081));
-normalArray_.push_back(glm::vec3(0.1574,0.9590,-0.2357));
+normalArray_.push_back(glm::vec3(0.1574, 0.9590, -0.2357));
 normalArray_.push_back(glm::vec3(0.0941,0.8759,0.4731));
 }

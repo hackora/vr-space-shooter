@@ -1,13 +1,14 @@
 #include "../include/Enemy.hpp"
-#include "../include/ShaderTest.h"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/glm.hpp"
+//#include "../include/ShaderTest.h"
+#include "../glm/gtc/matrix_transform.hpp"
+#include "../glm/glm.hpp"
 #include <GL/glew.h>
-#include <GL/glut.h> 
+//#include <GL/glut.h> 
 //#include "SOIL.h"
 #include <iostream>
 
 Enemy::Enemy()
+
 {
 }
 
@@ -17,9 +18,10 @@ Enemy::~Enemy()
 
 void Enemy::privateInit(){
 
+  dynamic_ = true;
   alive_ = true;
 
-  myShader.initShaders("/home/ghada/code/Space-Shooter/shaders/reflection");
+  myShader.initShaders("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/shaders/reflection");
   GLint texSampler;
   texSampler = glGetUniformLocation(myShader.getProg(), "reflection");
   glUniform1i(texSampler, textureID);
@@ -140,7 +142,7 @@ void Enemy::privateRender()
   glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 
   GLchar *VertexShaderSource, *FragmentShaderSource;
-  readShaderSource("/home/ghada/Desktop/game/Space-Shooter/shaders/brick", &VertexShaderSource, &FragmentShaderSource);
+  readShaderSource("C:/Users/gbo013/Documents/Visual Studio 2017/Projects/space_shooter/space_shooter/shaders/brick", &VertexShaderSource, &FragmentShaderSource);
   auto success = installShaders(VertexShaderSource, FragmentShaderSource);
   success *= initBrickShader();*/
 
@@ -190,7 +192,7 @@ void Enemy::privateUpdate(double dt)
 
 
   if(hasWeapon){
-    bullets_.front()->fire();
+   // bullets_.front()->fire();
     
   }
      
@@ -282,15 +284,63 @@ void Enemy::collided(bool withTerrain){
 
 }
 
-
-
 void Enemy::loadModel(){
-  /*vertexArray_.push_back(glm::vec3(-2.5f, -2.5f, 0.0f));
-  vertexArray_.push_back(glm::vec3(2.5f, -2.5f, 0.0f));
-  vertexArray_.push_back(glm::vec3(2.5f, 2.5f, 0.0f));
-  vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));*/
+	vertexArray_.push_back(glm::vec3(1.0, 0.9999999403953552, -1.0));
+	vertexArray_.push_back(glm::vec3(1.0, -1.0, -1.0));
+	vertexArray_.push_back(glm::vec3(-1.0000001192092896, -0.9999998211860657, -1.0));
+	vertexArray_.push_back(glm::vec3(-0.9999996423721313, 1.0000003576278687, -1.0));
+	vertexArray_.push_back(glm::vec3(1.0000004768371582, 0.999999463558197, 1.0));
+	vertexArray_.push_back(glm::vec3(0.9999993443489075, -1.0000005960464478, 1.0));
+	vertexArray_.push_back(glm::vec3(-1.0000003576278687, -0.9999996423721313, 1.0));
+	vertexArray_.push_back(glm::vec3(-0.9999999403953552, 1.0, 1.0));
 
-  //vertices
+  indexArray_.push_back(1);
+  indexArray_.push_back(3);
+  indexArray_.push_back(0);
+  indexArray_.push_back(7);
+  indexArray_.push_back(5);
+  indexArray_.push_back(4);
+  indexArray_.push_back(4);
+  indexArray_.push_back(1);
+  indexArray_.push_back(0);
+  indexArray_.push_back(5);
+  indexArray_.push_back(2);
+  indexArray_.push_back(1);
+  indexArray_.push_back(2);
+  indexArray_.push_back(7);
+  indexArray_.push_back(3);
+  indexArray_.push_back(0);
+  indexArray_.push_back(7);
+  indexArray_.push_back(4);
+  indexArray_.push_back(1);
+  indexArray_.push_back(2);
+  indexArray_.push_back(3);
+  indexArray_.push_back(7);
+  indexArray_.push_back(6);
+  indexArray_.push_back(5);
+  indexArray_.push_back(4);
+  indexArray_.push_back(5);
+  indexArray_.push_back(1);
+  indexArray_.push_back(5);
+  indexArray_.push_back(6);
+  indexArray_.push_back(2);
+  indexArray_.push_back(2);
+  indexArray_.push_back(6);
+  indexArray_.push_back(7);
+  indexArray_.push_back(0);
+  indexArray_.push_back(3);
+  indexArray_.push_back(7);
+
+  normalArray_.push_back(glm::vec3(0.5773491859436035, 0.5773491859436035, -0.5773491859436035));
+  normalArray_.push_back(glm::vec3(0.5773491859436035, -0.5773491859436035, -0.5773491859436035));
+  normalArray_.push_back(glm::vec3(-0.5773491859436035, -0.5773491859436035, -0.5773491859436035));
+  normalArray_.push_back(glm::vec3(-0.5773491859436035, 0.5773491859436035, -0.5773491859436035));
+  normalArray_.push_back(glm::vec3(0.5773491859436035, 0.5773491859436035, 0.5773491859436035));
+  normalArray_.push_back(glm::vec3(0.5773491859436035, -0.5773491859436035, 0.5773491859436035));
+  normalArray_.push_back(glm::vec3(-0.5773491859436035, -0.5773491859436035, 0.5773491859436035));
+  normalArray_.push_back(glm::vec3(-0.5773491859436035, 0.5773491859436035, 0.5773491859436035));
+
+  /*//vertices
 
 vertexArray_.push_back(glm::vec3(0.0197,0.5441,5.1770));
 vertexArray_.push_back(glm::vec3(0.0337,0.3851,5.5795));
@@ -82176,5 +82226,5 @@ normalArray_.push_back(glm::vec3(0.0158,0.8909,0.4540));
 normalArray_.push_back(glm::vec3(0.1171,0.9704,-0.2110));
 normalArray_.push_back(glm::vec3(0.4662,0.8190,0.3345));
 normalArray_.push_back(glm::vec3(0.9575,0.0095,0.2882));
-normalArray_.push_back(glm::vec3(0.9517,0.2729,-0.1409));
+normalArray_.push_back(glm::vec3(0.9517,0.2729,-0.1409));*/
 }

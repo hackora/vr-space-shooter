@@ -28,6 +28,7 @@ class Enemy : public SceneObject
         float getSurroundingSphere();
         void setSurroundingSphere();
         std::vector<std::shared_ptr<Bullet>> getBullets(){return bullets_;}
+        void collided(bool  withTerrain);
 
     protected:
         void privateInit();

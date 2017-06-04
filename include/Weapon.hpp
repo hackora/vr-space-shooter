@@ -12,12 +12,13 @@ class Weapon : public SceneObject
 	public:
 		Weapon();
 		~Weapon();
-        //virtual void fire();
+        virtual void fire(){}
 
   	protected:
     	void privateInit();
 		void privateRender();
 		void privateUpdate(double dt);
+		bool active_ = false;
 
 	private:
     	float life_;

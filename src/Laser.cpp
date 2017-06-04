@@ -11,6 +11,7 @@ Laser::~Laser()
 
 void Laser::privateInit()
 {
+	alive_ = true;
 	vertexArray_.push_back(glm::vec3(0.0, 0.0, 0.0));
 	vertexArray_.push_back(glm::vec3(0.0, 0.0, -7.0));
 	setSurroundingSphere();

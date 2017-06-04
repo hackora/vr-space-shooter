@@ -12,8 +12,20 @@
 #include "EnemyManager.hpp"
 #include "ParticleEngine.hpp"
 #include "SkyBox.hpp"
+#include "Bullet.hpp"
+#include "Missile.hpp"
+#include "Laser.hpp"
 
 #include <memory>
+#include <vector>
+
+
+struct CollisionObject{
+
+    SceneObject* obj1;
+    SceneObject* obj2;
+
+};
 
 class GameManager : public SceneObject
 {
@@ -29,6 +41,12 @@ class GameManager : public SceneObject
     virtual void privateInit();
 	virtual void privateRender();
 	virtual void privateUpdate(double dt);
+    std::vector<std::shared_ptr<SceneObject>> getDynamicObjects();
+    std::vector<CollisionObject> detectCollisions(std::vector<std::shared_ptr<SceneObject>>);
+    void resolveCollisions(std::vector<CollisionObject>);
+    bool detectCollision(SceneObject* obj1, SceneObject* obj2);
+    bool detectCollision(SceneObject* obj);
+    void removeDead();
 
 	private:
     std::shared_ptr<BattleField> bf_;
@@ -37,6 +55,11 @@ class GameManager : public SceneObject
     std::shared_ptr<SpaceShip> spaceship_;
     std::shared_ptr<ParticleEngine> pe_;
     std::shared_ptr<SkyBox> skybox_;
+
+    std::vector<std::shared_ptr<Missile>> missiles_;
+    std::vector<std::shared_ptr<Laser>> lasers_;
+    std::vector<std::shared_ptr<Bullet>> bullets_;
+
 
     float spaceshipRadius_;
     float enemyRadius_;

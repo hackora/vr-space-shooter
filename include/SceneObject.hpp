@@ -59,6 +59,10 @@ class SceneObject
   SceneObject* getParent(){ return parent_;}
 
   virtual float getSurroundingSphere() {}
+  virtual void collided(bool withTerrain){}
+  virtual void terminate(){}
+
+  bool isDead(){ return !alive_;}
 
  protected:
   // Override this method with your own render-implementation.
@@ -67,6 +71,8 @@ class SceneObject
   virtual void privateUpdate(double dt) {}
   // Override this method with your own init-implementation.
   virtual void privateInit() {}
+
+  bool alive_ = false;
 
   // This member contains the time since last frame. It is set
   // before privateUpdate is called.

@@ -53,6 +53,10 @@ void SpaceShip::privateInit()
   vertexArray_.push_back(glm::vec3(2.5f, 2.5f, 0.0f));
   vertexArray_.push_back(glm::vec3(-2.5f, 2.5f,0.0f));*/
 
+  life_ = 3;
+  alive_ = true;
+  health_= 100.0;
+
   loadModel();
   setSurroundingSphere();
   auto laser = std::make_shared<Laser>();
@@ -69,33 +73,35 @@ void SpaceShip::privateInit()
 
 void SpaceShip::privateRender()
 {
+
   //glColor3f(0.0f, 0.0f, 0.0f);
 
-  glDepthFunc(GL_LESS);
-  glEnable(GL_DEPTH_TEST);
-  glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+    glDepthFunc(GL_LESS);
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 
-  GLchar *VertexShaderSource, *FragmentShaderSource;
-  readShaderSource("/home/ghada/Desktop/game/Space-Shooter/shaders/phong", &VertexShaderSource, &FragmentShaderSource);
-  auto success = installShaders(VertexShaderSource, FragmentShaderSource);
-  success *= initPhongShader();
+    GLchar *VertexShaderSource, *FragmentShaderSource;
+    readShaderSource("/home/ghada/Desktop/game/Space-Shooter/shaders/phong", &VertexShaderSource, &FragmentShaderSource);
+    auto success = installShaders(VertexShaderSource, FragmentShaderSource);
+    success *= initPhongShader();
     
-  //glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-  //myShader.enable();
+    //glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+    //myShader.enable();
 
-  // Render the spaceship
-  glEnableClientState(GL_VERTEX_ARRAY); // enable vertex arrays
-  glVertexPointer(3, GL_FLOAT, 0, &vertexArray_[0]); // set vertex pointer
-  glEnableClientState(GL_NORMAL_ARRAY);
-  glNormalPointer(GL_FLOAT, 0, &normalArray_[0]);
-  glDrawElements( GL_TRIANGLES,indexArray_.size(),GL_UNSIGNED_INT,&indexArray_[0]); 
-  //glDrawArrays(GL_QUADS,0,4);
-  glDisableClientState(GL_NORMAL_ARRAY);
-  glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+    // Render the spaceship
+    glEnableClientState(GL_VERTEX_ARRAY); // enable vertex arrays
+    glVertexPointer(3, GL_FLOAT, 0, &vertexArray_[0]); // set vertex pointer
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glNormalPointer(GL_FLOAT, 0, &normalArray_[0]);
+    glDrawElements( GL_TRIANGLES,indexArray_.size(),GL_UNSIGNED_INT,&indexArray_[0]); 
+    //glDrawArrays(GL_QUADS,0,4);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 
   
 
-  //myShader.disable();
+    //myShader.disable();
+
 }
 
 void SpaceShip::privateUpdate(double dt)
@@ -169,6 +175,21 @@ void SpaceShip::setSurroundingSphere(){
 float SpaceShip::getSurroundingSphere(){
 
   return radius_;
+}
+
+void SpaceShip::collided(bool withTerrain){
+
+  if(withTerrain){
+    if(life_ ==1)
+      alive_ = false;
+    else
+      life_--;
+  }
+
+  else{
+    health_-= health_ *0.1;
+  }
+
 }
 
 void SpaceShip::loadModel(){

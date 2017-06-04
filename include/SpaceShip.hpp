@@ -26,6 +26,7 @@ class SpaceShip : public SceneObject
         std::vector<std::shared_ptr<Laser>> getLasers();
         float getSurroundingSphere();
         void setSurroundingSphere();
+        void collided(bool withTerrain);
 
   	protected:
     	void privateInit();
@@ -35,9 +36,10 @@ class SpaceShip : public SceneObject
 
 	private:
 		float speed_;
-    	float life_;
+    	int life_ ;
     	float armor_;
         float radius_ ;
+        float health_;
         std::vector< glm::vec3 > vertexArray_;
         std::vector< unsigned int > indexArray_;
         std::vector< glm::vec3 > normalArray_;

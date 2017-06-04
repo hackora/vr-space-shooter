@@ -28,7 +28,7 @@ class BattleField : public SceneObject
         std::vector< glm::vec2 > textureArray_; 
         // normal array.
         // texture coord array
-        int sizeX = 64;
+        int sizeX = 128;
         int sizeZ = 512;
         int Y     = 0;
         GLuint BfTexture_;

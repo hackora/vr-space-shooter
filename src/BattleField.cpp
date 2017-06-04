@@ -86,7 +86,7 @@ void BattleField::privateInit()
 
   int texWidth0, texHeight0;
 
-  unsigned char* image0 = SOIL_load_image("/home/ghada/code/Space-Shooter/img/color_height/maps/colorMap2012.bmp", &texWidth0, &texHeight0, 0, SOIL_LOAD_RGB);
+  unsigned char* image0 = SOIL_load_image("/home/ghada/Desktop/game/Space-Shooter/img/color_height/maps/rockandmortar_specular.png", &texWidth0, &texHeight0, 0, SOIL_LOAD_RGB);
 
   if(!image0){
     std::cout << "Failed to load texture: " << sizeof(image0) << std::endl;
@@ -120,7 +120,7 @@ void BattleField::privateInit()
 
   int texWidth1, texHeight1;
 
-  unsigned char* image1 = SOIL_load_image("/home/ghada/Desktop/game/Space-Shooter/img/color_height/maps/heightMap2012.bmp", &texWidth1, &texHeight1, 0, SOIL_LOAD_RGB);
+  unsigned char* image1 = SOIL_load_image("/home/ghada/Desktop/game/Space-Shooter/img/color_height/maps/moss-heightmap.bmp", &texWidth1, &texHeight1, 0, SOIL_LOAD_RGB);
 
   if(!image1){
     std::cout << "Failed to load texture: " << sizeof(image1) << std::endl;

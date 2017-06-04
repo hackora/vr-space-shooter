@@ -32,14 +32,18 @@ void EnemyManager::createEnemy()
     enemy->init();
   	int random=rand()%3;
   	//if(random==0){
-  		enemy->addBullet();
+  		//enemy->addBullet();
   	//}	
   	enemy->setMovement(random);
   	enemies.push_back(enemy);
   	//std::cout<<enemies.size()<<std::endl;
 }
 
-void EnemyManager::destroyEnemy(Enemy enemy)
-{
-	
+void EnemyManager::removeDead(){
+
+  for(auto it=enemies.begin(); it!=enemies.end();it++){
+    if(it->get()->isDead()){
+      it->reset();
+    }
+  }
 }

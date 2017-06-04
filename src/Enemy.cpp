@@ -17,6 +17,8 @@ Enemy::~Enemy()
 
 void Enemy::privateInit(){
 
+  alive_ = true;
+
   myShader.initShaders("/home/ghada/code/Space-Shooter/shaders/reflection");
   GLint texSampler;
   texSampler = glGetUniformLocation(myShader.getProg(), "reflection");
@@ -92,6 +94,8 @@ void Enemy::privateInit(){
 
 void Enemy::privateRender()
 {
+
+
 
   //glCallList(list_id);
   
@@ -187,6 +191,7 @@ void Enemy::privateUpdate(double dt)
 
   if(hasWeapon){
     bullets_.front()->fire();
+    
   }
      
 }
@@ -269,6 +274,12 @@ radius_ = radius;
 float Enemy::getSurroundingSphere(){
 
   return radius_;
+}
+
+void Enemy::collided(bool withTerrain){
+
+  alive_ = false;
+
 }
 
 

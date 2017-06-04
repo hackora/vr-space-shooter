@@ -15,7 +15,7 @@ class EnemyManager : public SceneObject
         EnemyManager();
         ~EnemyManager();
         void createEnemy();
-        void destroyEnemy(Enemy enemy);
+        void removeDead();
         std::vector<std::shared_ptr<Enemy>> getEnemies(){return enemies;}
 
 

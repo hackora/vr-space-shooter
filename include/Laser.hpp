@@ -5,6 +5,7 @@
 #include <GL/glew.h>
 //#include <GL/glu.h>
 #include "Weapon.hpp"
+#include <iostream>
 
 class Laser : public Weapon
 {
@@ -14,6 +15,8 @@ class Laser : public Weapon
 		void fire();
 		float getSurroundingSphere();
 		void setSurroundingSphere();
+		void collided(bool  withTerrain){alive_ = false;}
+		bool isActive(){return active_;}
 
   	protected:
     	void privateInit();
@@ -23,7 +26,6 @@ class Laser : public Weapon
 	private:
     	float speed_= 50.0f;
     	float life_;
-    	bool active_ = false;
     	float radius_ ;
     	std::vector< glm::vec3 > vertexArray_;
     
